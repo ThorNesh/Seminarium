@@ -177,7 +177,19 @@ where id_pojazdu = {id}
 
         public IEnumerable<Car> SearchModel(string model)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteQueryResult<Car>(@$"
+                    SELECT `id_pojazdu`,`numer_vin`,`marka`,`model`,`kolor`,`rocznik`,rodzaj_silnika.id_rodzaj_silnika,rodzaj_silnika.moc,rodzaj_silnika.pojemność,rodzaj_silnika.rodzaj_paliwa 
+                    FROM pojazd join rodzaj_silnika on pojazd.id_rodzaj_silnika=rodzaj_silnika.id_rodzaj_silnika
+                    where model = '{model}'
+                    ");
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
 
         public Car SearchVin(string vin)
