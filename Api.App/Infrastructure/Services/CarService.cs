@@ -194,37 +194,97 @@ where id_pojazdu = {id}
 
         public Car SearchVin(string vin)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteQueryResult<Car>(@$"
+                    SELECT `id_pojazdu`,`numer_vin`,`marka`,`model`,`kolor`,`rocznik`,rodzaj_silnika.id_rodzaj_silnika,rodzaj_silnika.moc,rodzaj_silnika.pojemność,rodzaj_silnika.rodzaj_paliwa 
+                    FROM pojazd join rodzaj_silnika on pojazd.id_rodzaj_silnika=rodzaj_silnika.id_rodzaj_silnika
+                    where model = '{vin}'
+                    ")?[0];
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
 
         public int UpdateBrand(int id, string newBrand)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteNonQueryResult($@"Update pojazd set marka = '{newBrand}' where id_pojazdu = {id}");
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
 
         public int UpdateColor(int id, string newColor)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteNonQueryResult($@"Update pojazd set kolor = '{newColor}' where id_pojazdu = {id}");
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
 
-        public int UpdateEngine(int id, int newEngineId)
+        public int UpdateEngine(int id, uint newEngineId)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteNonQueryResult($@"Update pojazd set id_rodzaj_silnika = '{newEngineId}' where id_pojazdu = {id}");
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
 
         public int UpdateModel(int id, string newModel)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteNonQueryResult($@"Update pojazd set model = '{newModel}' where id_pojazdu = {id}");
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
 
         public int UpdateVin(int id, string newVin)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteNonQueryResult($@"Update pojazd set numer_vin = '{newVin}' where id_pojazdu = {id}");
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
 
         public int UpdateVintage(int id, uint newVintage)
         {
-            throw new NotImplementedException();
+            using (MySqlConnector con = new MySqlConnector())
+            {
+                if (con.Open())
+                {
+                    return con.ExecuteNonQueryResult($@"Update pojazd set rocznik = '{newVintage}' where id_pojazdu = {id}");
+                }
+                else
+                    throw new ConnectMySqlException();
+            }
         }
     }
 }

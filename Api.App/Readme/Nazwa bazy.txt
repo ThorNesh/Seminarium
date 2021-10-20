@@ -1,0 +1,1 @@
+Nazwij bazę "seminarium" aby API poprawnie działało

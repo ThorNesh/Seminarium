@@ -97,9 +97,11 @@ namespace Api.App.Infrastructure.Services
             {
                 if (con.Open())
                 {
-                    return con.ExecuteNonQueryResult(@$"INSERT INTO `rodzaj_silnika`
+                    string query = @$"INSERT INTO `rodzaj_silnika`
                     (`moc`, `pojemność`, `rodzaj_paliwa`) 
-                    VALUES ({engine.Power},{engine.EngineCapacity.ToString().Replace(',','.')},'{engine.FuelType}')");
+                    VALUES ({engine.Power},{engine.EngineCapacity.ToString().Replace(',', '.')},'{engine.FuelType}')";
+
+                    return con.ExecuteNonQueryResult(query);
                 }
                 else
                 {

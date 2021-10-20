@@ -19,7 +19,6 @@ D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\Swashbuckle.AspNetCo
 D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
-D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.csprojAssemblyReference.cache
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.GeneratedMSBuildEditorConfig.editorconfig
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.AssemblyInfoInputs.cache
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.AssemblyInfo.cs
@@ -30,7 +29,6 @@ D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\staticwebassets\Api.
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\staticwebassets\Api.App.StaticWebAssets.xml
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\scopedcss\bundle\Api.App.styles.css
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.RazorTargetAssemblyInfo.cache
-D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.csproj.CopyComplete
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.dll
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\ref\Api.App.dll
 D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.pdb
@@ -46,3 +44,4 @@ D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\Zstandard.Net.dll
 D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\System.Configuration.ConfigurationManager.dll
 D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
 D:\moje\Studia zajęcia\Seminarium\Api.App\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\moje\Studia zajęcia\Seminarium\Api.App\obj\Debug\net5.0\Api.App.csproj.AssemblyReference.cache

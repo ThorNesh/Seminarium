@@ -1,4 +1,5 @@
-﻿using Api.App.Infrastructure.IServices;
+﻿using Api.App.Core;
+using Api.App.Infrastructure.IServices;
 using Api.App.Infrastructure.Models.Car;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -143,8 +144,117 @@ namespace Api.App.Controllers
         {
             try
             {
-                //ify vin 17znaków
+                if (car.Vin.Length != 17) return BadRequest("Numer vin powinien zawierać 17 znaków");
+                if (!Helpers.LengthBetween(car.Brand, 1, 15)) return BadRequest("Nazwa marki powinna zawierać 1-15 znaków");
+                if (!Helpers.LengthBetween(car.Model, 1, 15)) return BadRequest("Nazwa modelu powinna zawierać 1-15 znaków");
+                if (!Helpers.LengthBetween(car.Model, 1, 15)) return BadRequest("Kolor powinien zawierać 1-15 znaków");
+                if (car.Vintage < 1950 || car.Vintage > DateTime.Now.Year) BadRequest("Nieprawidłowy rocznik");
+
+
                 return _service.Post(car)>0 ? Ok("Pomyślnie dodano") : BadRequest("Coś poszło nietak");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("FilterByModel")]
+        public ActionResult SearchModel([FromHeader] string model)
+        {
+            try
+            {
+                return Ok(_service.SearchModel(model));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("FilterVin")]
+        public ActionResult FilterVin([FromHeader] string vin)
+        {
+            try
+            {
+                return Ok(_service.SearchVin(vin));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("UpdateBrand")]
+        public ActionResult UpdateBrand([FromHeader] int id, [FromHeader] string newBrand)
+        {
+            try
+            {
+                if (!Helpers.LengthBetween(newBrand, 1, 15)) return BadRequest("Nazwa marki powinna mieć 1-15 znaków");
+                return _service.UpdateBrand(id, newBrand) > 0 ? Ok("Pomyślnie edytowano") : BadRequest($"Brak pojazdu id:{id}");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("UpdateColor")]
+        public ActionResult UpdateColor([FromHeader] int id, [FromHeader] string newColor)
+        {
+            try
+            {
+                if (!Helpers.LengthBetween(newColor, 1, 15)) return BadRequest("Nazwa koloru powinna mieć 1-15 znaków");
+                return _service.UpdateColor(id, newColor) > 0 ? Ok("Pomyślnie edytowano") : BadRequest($"Brak pojazdu id:{id}");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("UpdateEngine")]
+        public ActionResult UpdateEngine([FromHeader] int id, [FromHeader] uint newEngine)
+        {
+            try
+            {
+                return _service.UpdateEngine(id, newEngine) > 0 ? Ok("Pomyślnie edytowano") : BadRequest($"Brak pojazdu id:{id}");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("UpdateModel")]
+        public ActionResult UpdateModel([FromHeader] int id, [FromHeader] string newModel)
+        {
+            try
+            {
+                if (!Helpers.LengthBetween(newModel, 1, 15)) return BadRequest("Nazwa modelu powinna mieć 1-15 znaków");
+                return _service.UpdateModel(id, newModel) > 0 ? Ok("Pomyślnie edytowano") : BadRequest($"Brak pojazdu id:{id}");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("UpdateVin")]
+        public ActionResult UpdateVin([FromHeader] int id, [FromHeader] string newVin)
+        {
+            try
+            {
+                if (newVin.Length == 17) return BadRequest("Numer vin musi zawierać 17 znaków");
+                return _service.UpdateModel(id, newVin) > 0 ? Ok("Pomyślnie edytowano") : BadRequest($"Brak pojazdu id:{id}");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("UpdateVintage")]
+        public ActionResult UpdateVintage([FromHeader] int id, [FromHeader] uint newVintage)
+        {
+            try
+            {
+                if (newVintage < 1950 || newVintage > DateTime.Now.Year) BadRequest("Nieprawidłowy rocznik");
+                return _service.UpdateVintage(id, newVintage) > 0 ? Ok("Pomyślnie edytowano") : BadRequest($"Brak pojazdu id:{id}");
             }
             catch (Exception e)
             {

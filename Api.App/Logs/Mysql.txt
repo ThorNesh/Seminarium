@@ -76,3 +76,36 @@ MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'Diesel' in '
    at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
    at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
    at Api.Infrastructure.MySql.MySqlConnector.ExecuteQueryResult[T](String query) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 105
+================================ExecuteQueryResult<T> error================================
+System.ArgumentException: Object of type 'System.String' cannot be converted to type 'System.UInt32'.
+   at System.RuntimeType.TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast)
+   at System.Reflection.MethodBase.CheckArguments(Object[] parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, Object[] index)
+   at System.Reflection.PropertyInfo.SetValue(Object obj, Object value)
+   at Api.Infrastructure.MySql.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 146
+   at Api.Infrastructure.MySql.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 133
+   at Api.Infrastructure.MySql.MySqlConnector.ExecuteQueryResult[T](String query) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 115
+================================ExecuteQueryResult<T> error================================
+System.ArgumentException: Object of type 'System.String' cannot be converted to type 'System.UInt32'.
+   at System.RuntimeType.TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast)
+   at System.Reflection.MethodBase.CheckArguments(Object[] parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, Object[] index)
+   at System.Reflection.PropertyInfo.SetValue(Object obj, Object value)
+   at Api.Infrastructure.MySql.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 146
+   at Api.Infrastructure.MySql.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 133
+   at Api.Infrastructure.MySql.MySqlConnector.ExecuteQueryResult[T](String query) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 115
+================================ExecuteQueryResult<T> error================================
+System.ArgumentException: Object of type 'System.Int32' cannot be converted to type 'System.UInt32'.
+   at System.RuntimeType.TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast)
+   at System.Reflection.MethodBase.CheckArguments(Object[] parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, Object[] index)
+   at System.Reflection.PropertyInfo.SetValue(Object obj, Object value)
+   at Api.Infrastructure.MySql.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 146
+   at Api.Infrastructure.MySql.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 133
+   at Api.Infrastructure.MySql.MySqlConnector.ExecuteQueryResult[T](String query) in D:\moje\Studia zajęcia\Seminarium\Api.App\Infrastructure\MySql\MySqlConnector.cs:line 115

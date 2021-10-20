@@ -30,7 +30,7 @@ namespace Api.App.Infrastructure.IServices
         int UpdateModel(int id, string newModel);
         int UpdateColor(int id, string newColor);
         int UpdateVintage(int id, uint newVintage);
-        int UpdateEngine(int id, int newEngineId);
+        int UpdateEngine(int id, uint newEngineId);
 
 
     }
