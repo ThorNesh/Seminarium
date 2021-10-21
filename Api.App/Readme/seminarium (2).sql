@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 20 Paź 2021, 20:35
+-- Czas generowania: 21 Paź 2021, 18:58
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.11
 
@@ -84,6 +84,16 @@ CREATE TABLE `poziom_pracownika` (
   `rodzaj_przepustki` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Zrzut danych tabeli `poziom_pracownika`
+--
+
+INSERT INTO `poziom_pracownika` (`id_poziom_pracownika`, `rodzaj_pracownika`, `status_pracownika`, `rodzaj_przepustki`) VALUES
+(1, 'Pracownik produkcji', 'Pracownik fizyczny', 'Zwykła'),
+(2, 'Brygadzista', 'Zarządzanie działem', 'Kierownicza'),
+(3, 'Kierownik', 'Zarządzanie działami', 'Kierownicza'),
+(4, 'Dyrektor', 'Zarządzanie', 'Dyrektorska');
+
 -- --------------------------------------------------------
 
 --
@@ -94,11 +104,27 @@ CREATE TABLE `pracownicy` (
   `id_pracownika` int(10) UNSIGNED NOT NULL,
   `imie` varchar(255) NOT NULL,
   `nazwisko` varchar(255) NOT NULL,
-  `pesel` int(11) NOT NULL,
-  `numer_telefonu` int(9) NOT NULL,
+  `pesel` varchar(11) NOT NULL,
+  `numer_telefonu` varchar(9) NOT NULL,
   `adres_email` varchar(255) NOT NULL,
-  `id_poziom_pracownika` int(11) NOT NULL
+  `id_poziom_pracownika` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Zrzut danych tabeli `pracownicy`
+--
+
+INSERT INTO `pracownicy` (`id_pracownika`, `imie`, `nazwisko`, `pesel`, `numer_telefonu`, `adres_email`, `id_poziom_pracownika`) VALUES
+(1, 'Camile', 'Anetts', '2147483647', '755219255', 'canetts0@ebay.co.uk', 3),
+(2, 'Brenda', 'Danton', '2147483647', '556886123', 'bdanton1@homestead.com', 2),
+(3, 'Lesli', 'Commings', '2147483647', '935148832', 'lcommings2@rediff.com', 2),
+(4, 'Doro', 'Bowmaker', '2147483647', '921155060', 'dbowmaker3@vinaora.com', 3),
+(5, 'Anthia', 'Gounard', '2147483647', '412777834', 'agounard4@cornell.edu', 4),
+(6, 'Ferdinanda', 'Baudon', '2147483647', '515841741', 'fbaudon5@ucoz.com', 1),
+(7, 'Franny', 'Uman', '2147483647', '173399744', 'fuman6@vinaora.com', 2),
+(8, 'Chelsey', 'Scottini', '2147483647', '717477878', 'cscottini7@reverbnation.com', 2),
+(9, 'Jerrold', 'Stubbs', '2147483647', '683343497', 'jstubbs8@myspace.com', 2),
+(10, 'Susannah', 'Huortic', '2147483647', '850643075', 'shuortic9@ameblo.jp', 4);
 
 -- --------------------------------------------------------
 
@@ -205,13 +231,13 @@ ALTER TABLE `pojazd`
 -- AUTO_INCREMENT dla tabeli `poziom_pracownika`
 --
 ALTER TABLE `poziom_pracownika`
-  MODIFY `id_poziom_pracownika` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_poziom_pracownika` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT dla tabeli `pracownicy`
 --
 ALTER TABLE `pracownicy`
-  MODIFY `id_pracownika` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pracownika` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT dla tabeli `rodzaj_silnika`
