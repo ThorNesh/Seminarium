@@ -13,6 +13,6 @@ namespace Api.App.Infrastructure.Models.Worker
         public string Pesel { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public WorkerLevel WorkerLevel { get; set; }
+        public WorkerLevel WorkerLevel { get; set; } = new();
     }
 }

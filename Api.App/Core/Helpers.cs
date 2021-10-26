@@ -32,5 +32,10 @@ namespace Api.App.Core
         {
             return var.ToString().Replace(',', '.');
         }
+
+        public static bool PeselValidate(string pesel)
+        {
+            return pesel.Length == 11 && uint.TryParse(pesel, out _);
+        }
     }
 }

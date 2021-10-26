@@ -68,34 +68,6 @@ namespace Api.Infrastructure.MySql
             }
         }
 
-        public string[][] ExecuteQueryResult(string query)
-        {
-            try
-            {
-                MySqlCommand cmd = new MySqlCommand(query, _con);
-                List<string[]> result = new List<string[]>();
-                using (MySqlDataReader sqlReader = cmd.ExecuteReader())
-                {
-                    while (sqlReader.Read())
-                    {
-                        string[] record = new string[sqlReader.FieldCount];
-                        for (int i = 0; i < record.Length; i++)
-                        {
-                            record[i] = sqlReader[i].ToString();
-                        }
-                        result.Add(record);
-                    }
-                }
-                return result.ToArray();
-            }
-            catch (Exception e)
-            {
-                Logger.WriteLog(LOG_FILE, "ExecuteQueryResult error", e.ToString());
-                Console.WriteLine(e);
-                return null;
-            }
-        }
-
         public T[] ExecuteQueryResult<T>(string query)where T:class, new()
         {
             try
