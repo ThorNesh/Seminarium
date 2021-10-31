@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Api.Infrastructure.MySql;
 using Api.App.Core;
 using Api.App.Infrastructure.Models;
+using MySql.Data.MySqlClient;
+using Api.App.Infrastructure.Services;
 
 namespace Api.App
 {
@@ -17,7 +19,7 @@ namespace Api.App
 
         public static void Main(string[] args)
         {
-           CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

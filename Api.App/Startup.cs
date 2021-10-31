@@ -33,6 +33,7 @@ namespace Api.App
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IWorkerLevelService, WorkerLevelService>();
             services.AddScoped<IWorkerService, WorkerService>();
+            services.AddScoped<IJobService, JobService>();
 
             services.AddCors(options => options.AddDefaultPolicy(builder => builder
             .AllowAnyOrigin()

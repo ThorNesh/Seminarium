@@ -37,5 +37,9 @@ namespace Api.App.Core
         {
             return pesel.Length == 11 && uint.TryParse(pesel, out _);
         }
+        public static string ConvertDate(DateTime time)
+        {
+            return $"{time.Year}-{time.Month}-{time.Day}";
+        }
     }
 }

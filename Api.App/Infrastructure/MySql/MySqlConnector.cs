@@ -113,7 +113,7 @@ namespace Api.Infrastructure.MySql
             var properties = type.GetProperties();
             for (int i = 0; i < properties.Length; i++, index++)
             {
-                if (properties[i].PropertyType.IsPrimitive || properties[i].PropertyType == typeof(string))
+                if (properties[i].PropertyType.IsPrimitive || properties[i].PropertyType == typeof(string)||properties[i].PropertyType == typeof(DateTime))
                 {
                     properties[i].SetValue(obj, values[index]);
                 }
