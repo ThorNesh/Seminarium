@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 04 Lis 2021, 18:46
+-- Czas generowania: 04 Lis 2021, 20:19
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.11
 
@@ -156,6 +156,22 @@ CREATE TABLE `vehicles` (
   `Fuel_Id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Zrzut danych tabeli `vehicles`
+--
+
+INSERT INTO `vehicles` (`Id`, `Brand`, `Model`, `Production_Year`, `Vin`, `Registration_Number`, `Engine_Power`, `Engine_Capacity`, `Fuel_Id`) VALUES
+(1, 'Pontiac', 'Aztek', '2002', '1FMCU0D75AK929270', 'PA 25639', 61, 2.9, 4),
+(2, 'Cadillac', 'CTS', '2010', 'SALAC2D40BA567061', 'SI 25639', 206, 0.2, 3),
+(3, 'Lincoln', 'Continental', '1996', 'WA1AM74L29D164307', 'BY 25639', 85, 1.2, 3),
+(4, 'Acura', 'Legend', '1988', 'WBAKN9C53FD240759', 'LV 25639', 70, 2.4, 4),
+(5, 'Land Rover', 'Freelander', '2001', '3VW467AT6DM028984', 'BR 25639', 115, 2.7, 2),
+(6, 'Ford', 'Falcon', '1967', '1GYFK56269R790935', 'CN 25639', 262, 2.8, 1),
+(7, 'Honda', 'Odyssey', '1998', '5UXFB33533L656823', 'MW 25639', 158, 2.4, 1),
+(8, 'Dodge', 'D250 Club', '1992', '3FAHP0CG4AR055761', 'PH 25639', 80, 0.4, 3),
+(9, 'BMW', '6 Series', '2009', 'JH4NA126X3T382131', 'RU 25639', 34, 1.7, 1),
+(10, 'Audi', 'S8', '2009', 'WAUXF78K99A474013', 'GR 25639', 123, 0.8, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -274,7 +290,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT dla tabeli `vehicles`
 --
 ALTER TABLE `vehicles`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT dla tabeli `workers`
