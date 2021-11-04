@@ -54,7 +54,7 @@ namespace WarsztatAPI.Tools
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"ERROR : {e}");
                 Logger.WriteLog(LOG_FILE, "Open Error", e.ToString());
                 return false;
             }
@@ -71,7 +71,7 @@ namespace WarsztatAPI.Tools
             catch (Exception e)
             {
                 Logger.WriteLog(LOG_FILE, "Closing error", e.Message);
-                Console.WriteLine(e);
+                Console.WriteLine($"ERROR : {e}");
             }
         }
 
@@ -85,7 +85,7 @@ namespace WarsztatAPI.Tools
             catch (Exception e)
             {
                 Logger.WriteLog(LOG_FILE, "NonQueryResult Error", e.ToString());
-                Console.WriteLine(e);
+                Console.WriteLine($"ERROR : {e}");
                 Console.WriteLine("======================");
                 Console.WriteLine(query);
                 return -1;
@@ -116,7 +116,7 @@ namespace WarsztatAPI.Tools
             catch (Exception e)
             {
                 Logger.WriteLog(LOG_FILE, "ExecuteQueryResult<T> error", e.ToString());
-                Console.WriteLine(e);
+                Console.WriteLine($"ERROR : {e}");
                 Console.WriteLine("======================");
                 Console.WriteLine(query);
                 return null;
