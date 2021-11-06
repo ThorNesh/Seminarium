@@ -37,3 +37,9 @@ D:\moje\Studia zajęcia\Seminarium\WarsztatAPI\obj\Debug\net5.0\WarsztatAPI.dll
 D:\moje\Studia zajęcia\Seminarium\WarsztatAPI\obj\Debug\net5.0\ref\WarsztatAPI.dll
 D:\moje\Studia zajęcia\Seminarium\WarsztatAPI\obj\Debug\net5.0\WarsztatAPI.pdb
 D:\moje\Studia zajęcia\Seminarium\WarsztatAPI\obj\Debug\net5.0\WarsztatAPI.genruntimeconfig.cache
+D:\moje\Studia zajęcia\Seminarium\WarsztatApi\bin\Debug\net5.0\Readme\Hasła.json
+D:\moje\Studia zajęcia\Seminarium\WarsztatApi\bin\Debug\net5.0\BCrypt.Net-Next.dll
+D:\moje\Studia zajęcia\Seminarium\WarsztatApi\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\moje\Studia zajęcia\Seminarium\WarsztatApi\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+D:\moje\Studia zajęcia\Seminarium\WarsztatApi\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+D:\moje\Studia zajęcia\Seminarium\WarsztatApi\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll

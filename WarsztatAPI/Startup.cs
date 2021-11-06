@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WarsztatAPI.Tools;
 
 namespace WarsztatAPI
 {
@@ -26,12 +27,13 @@ namespace WarsztatAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
+
+            services.AddSingleton<JwtService>();
 
             services.AddControllers();
-            services.AddCors(options => options.AddDefaultPolicy(builder => builder
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod()));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WarsztatAPI", Version = "v1" });
@@ -52,7 +54,12 @@ namespace WarsztatAPI
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors(opt=>opt
+            .WithOrigins(new[] { "http://loclahost:5000", "https://loclahost:5001" })
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            );
 
             app.UseAuthorization();
 
