@@ -19,9 +19,11 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
+                JwtService.Verify(Request.Cookies["jwt"]);
                 Client[] results = MySqlConnector.ExecuteQueryResult<Client>($"select * from clients where Id = {id}");
                 return results.Length > 0 ? Ok(results[0]) : BadRequest("Brak klienta w bazie");
             }
+            catch (ArgumentNullException) { return Unauthorized(); }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
@@ -33,8 +35,11 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
+                JwtService.Verify(Request.Cookies["jwt"]);
                 return Ok(MySqlConnector.ExecuteQueryResult<Client>("select * from clients"));
             }
+
+            catch (ArgumentNullException) { return Unauthorized(); }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
@@ -46,6 +51,7 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
+
                 return MySqlConnector.ExecuteNonQueryResult($@"
                 insert into clients values(0,'{client.Name}','{client.LastName}','{client.PhoneNumber}','{client.Email}')
                 ")>0 ? 

@@ -139,6 +139,7 @@ namespace WarsztatAPI.Tools
             {
                 if (properties[i].PropertyType.IsPrimitive || properties[i].PropertyType == typeof(string)||properties[i].PropertyType == typeof(DateTime))
                 {
+                   // Console.WriteLine($"PropName:{properties[i].Name} | DataBaseValue:{values[index]}");
                     properties[i].SetValue(obj,values[index]);
                 }
                 else

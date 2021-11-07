@@ -6,11 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace WarsztatAPI.Tools
 {
-    public class JwtService
+    public static class JwtService
     {
         const string secretKey = "Nst66lpA?!CoSl3m?a%s$3";
 
-        public string Generate(uint id, Claim[] claims)
+        public static string Generate(uint id, Claim[] claims)
         {
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -22,7 +22,7 @@ namespace WarsztatAPI.Tools
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
 
-        public JwtSecurityToken Verify(string jwt)
+        public static JwtSecurityToken Verify(string jwt)
         {
             var tokenHaandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(secretKey);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 04 Lis 2021, 20:19
+-- Czas generowania: 07 Lis 2021, 15:02
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.11
 
@@ -131,12 +131,28 @@ INSERT INTO `statuses` (`Id`, `Name`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `login` text NOT NULL,
-  `password` text NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
+  `login` varchar(30) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `Worker_Id` int(11) UNSIGNED NOT NULL,
   `Is_Super_User` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `users`
+--
+
+INSERT INTO `users` (`id`, `login`, `password`, `Worker_Id`, `Is_Super_User`) VALUES
+(1, 'Urson', '$2a$11$ntw512lsBs14eA0j8dJjhOVtYwzX4NkdhdVX.y8s6WStxgIj0CjNu', 1, 1),
+(2, 'Steffen', '$2a$11$tg7FrhAX4ZzilXNcdRYaBuv8uxNDSkPVflFxQNBpxHrLZYPux.Dt2', 2, 0),
+(3, 'Aprilette', '$2a$11$pvATEAjL.xVj9oGYAuutEOnHToSPauxazW0bhq0fk1OKbIP2oCcte', 3, 0),
+(4, 'Loutitia', '$2a$11$cQQZQ5SPV49VXpQs/V0sJeesjOiTq3PXuKGg2yGLTgs51lpJlzwja', 4, 1),
+(5, 'Hallie', '$2a$11$bfGPskXCFp4d1MFgOpvQZ.dGfTVM3e65Wf3slmjzyqx0k9NTfi/Ha', 5, 1),
+(6, 'Rudiger', '$2a$11$cNmAdayBGCs8AWEd1saBLeFRPkBwwnk3QtdhClIQvZRniwrS0vpja', 6, 0),
+(7, 'Tomasine', '$2a$11$7JUtK3FuJWT3UAsKBj/3..GSK2GBgbb55yr1nHK/vOXkF.lElm5j.', 7, 0),
+(8, 'Kev', '$2a$11$YIuLETp8kQ89dVqpIjlfiuGq684Venr8UT/Miy6mOUQaVy/V5g4fK', 8, 0),
+(9, 'Barby', '$2a$11$Ebjn6Z8/5eyarS1H1sb07OnmelXXGL4eVeink3UiZ/JkUi3cCjVY.', 9, 1),
+(10, 'Gram', '$2a$11$6KmyJVfU5DAKwgYh.EI8A.NIFmUMCkw7B8d2rapps4eDBxGSnFH72', 10, 1);
 
 -- --------------------------------------------------------
 
@@ -188,6 +204,22 @@ CREATE TABLE `workers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Zrzut danych tabeli `workers`
+--
+
+INSERT INTO `workers` (`Id`, `Name`, `LastName`, `Phone_Number`, `Email`, `Hired`) VALUES
+(1, 'Morty', 'Murfin', '961390756', 'mmurfin0@house.gov', 1),
+(2, 'Serena', 'Gribbell', '539610498', 'sgribbell1@sfgate.com', 0),
+(3, 'Inessa', 'McCaig', '972242759', 'imccaig2@umn.edu', 1),
+(4, 'Arv', 'Pablos', '552604227', 'apablos3@artisteer.com', 0),
+(5, 'Garrot', 'Exroll', '526664923', 'gexroll4@netscape.com', 1),
+(6, 'Rosamund', 'Crosseland', '301317164', 'rcrosseland5@ucoz.ru', 1),
+(7, 'Karmen', 'Turfes', '310271811', 'kturfes6@prnewswire.com', 0),
+(8, 'Elisabetta', 'Renad', '677630591', 'erenad7@google.es', 0),
+(9, 'Tandi', 'Paolicchi', '937437605', 'tpaolicchi8@simplemachines.org', 0),
+(10, 'Ogden', 'Southorn', '855195309', 'osouthorn9@washington.edu', 1);
+
+--
 -- Indeksy dla zrzutów tabel
 --
 
@@ -231,7 +263,9 @@ ALTER TABLE `statuses`
 -- Indeksy dla tabeli `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`),
+  ADD KEY `Worker_Id` (`Worker_Id`);
 
 --
 -- Indeksy dla tabeli `vehicles`
@@ -244,7 +278,8 @@ ALTER TABLE `vehicles`
 -- Indeksy dla tabeli `workers`
 --
 ALTER TABLE `workers`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `UQ_Email` (`Email`);
 
 --
 -- AUTO_INCREMENT dla zrzuconych tabel
@@ -284,7 +319,7 @@ ALTER TABLE `statuses`
 -- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT dla tabeli `vehicles`
@@ -296,7 +331,7 @@ ALTER TABLE `vehicles`
 -- AUTO_INCREMENT dla tabeli `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Ograniczenia dla zrzutów tabel
@@ -316,6 +351,12 @@ ALTER TABLE `commisions`
   ADD CONSTRAINT `commisions_ibfk_1` FOREIGN KEY (`Chain_Id`) REFERENCES `clients_vehicles_chains` (`Id`),
   ADD CONSTRAINT `commisions_ibfk_2` FOREIGN KEY (`Status_Id`) REFERENCES `statuses` (`Id`),
   ADD CONSTRAINT `commisions_ibfk_3` FOREIGN KEY (`Worker_Id`) REFERENCES `workers` (`Id`);
+
+--
+-- Ograniczenia dla tabeli `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`Worker_Id`) REFERENCES `workers` (`Id`);
 
 --
 -- Ograniczenia dla tabeli `vehicles`

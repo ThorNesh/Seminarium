@@ -29,9 +29,6 @@ namespace WarsztatAPI
         {
             services.AddCors();
 
-
-            services.AddSingleton<JwtService>();
-
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
