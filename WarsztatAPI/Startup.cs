@@ -52,7 +52,7 @@ namespace WarsztatAPI
             app.UseRouting();
 
             app.UseCors(opt=>opt
-            .WithOrigins(new[] { "http://loclahost:5000", "https://loclahost:5001" })
+            .WithOrigins()
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()

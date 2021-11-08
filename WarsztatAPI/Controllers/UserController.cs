@@ -15,6 +15,26 @@ namespace WarsztatAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        [HttpDelete]
+        public ActionResult Delete([FromHeader]uint id)
+        {
+            try
+            {
+                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
+
+                return MySqlConnector.ExecuteNonQueryResult($"Delete from users where Id = {id}") > 0 ? Ok("Pomyślnie usunięto") : BadRequest("Brak użytkownika");
+
+            }
+            catch (InvalidOperationException)
+            {
+                return Unauthorized();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         
         [HttpPost("Register")]
         public ActionResult Register([FromBody] UserDB user)
@@ -22,7 +42,7 @@ namespace WarsztatAPI.Controllers
             try
             {
                 var token = JwtService.Verify(Request.Cookies["jwt"]);
-                Claim c = token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString());
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
 
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
