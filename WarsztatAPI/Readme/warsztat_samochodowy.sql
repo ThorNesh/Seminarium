@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 07 Lis 2021, 15:02
+-- Czas generowania: 11 Lis 2021, 14:03
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.11
 
@@ -49,7 +49,8 @@ INSERT INTO `clients` (`Id`, `Name`, `LastName`, `Phone_Number`, `Email`) VALUES
 (7, 'Babbie', 'Narramor', '448114578', 'bnarramor6@hubpages.com'),
 (8, 'Justina', 'Ferenczi', '657557398', 'jferenczi7@apple.com'),
 (9, 'Wash', 'Rattray', '709608649', 'wrattray8@miitbeian.gov.cn'),
-(10, 'Ardelis', 'Orable', '808102483', 'aorable9@boston.com');
+(10, 'Ardelis', 'Orable', '808102483', 'aorable9@boston.com'),
+(32, 'string', 'string', 'string', 'string');
 
 -- --------------------------------------------------------
 
@@ -65,6 +66,15 @@ CREATE TABLE `clients_vehicles_chains` (
   `Service` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Zrzut danych tabeli `clients_vehicles_chains`
+--
+
+INSERT INTO `clients_vehicles_chains` (`Id`, `Client_Id`, `Vehicle_Id`, `Message`, `Service`) VALUES
+(1, 2, 4, 'Test', 'Test'),
+(2, 5, 2, 'Test2', 'Test2'),
+(6, 32, 17, 'string', 'string');
+
 -- --------------------------------------------------------
 
 --
@@ -72,14 +82,22 @@ CREATE TABLE `clients_vehicles_chains` (
 --
 
 CREATE TABLE `commisions` (
-  `Id` int(11) NOT NULL,
+  `Id` int(11) UNSIGNED NOT NULL,
   `Chain_Id` int(11) UNSIGNED NOT NULL,
   `Code` varchar(10) NOT NULL,
-  `Date_Of_Start` date NOT NULL,
-  `Hour_Of_Start` time NOT NULL,
+  `Date_Of_Start` varchar(10) NOT NULL,
+  `Hour_Of_Start` varchar(8) NOT NULL,
   `Status_Id` int(11) UNSIGNED NOT NULL,
   `Worker_Id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `commisions`
+--
+
+INSERT INTO `commisions` (`Id`, `Chain_Id`, `Code`, `Date_Of_Start`, `Hour_Of_Start`, `Status_Id`, `Worker_Id`) VALUES
+(1, 1, 'AwS09FxR', '2021-11-10', '22:07:12', 1, 1),
+(5, 6, 'bXjmgKC8', 'string', 'string', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -123,6 +141,36 @@ INSERT INTO `statuses` (`Id`, `Name`) VALUES
 (2, 'W trakcie'),
 (3, 'Gotowy do odbioru'),
 (4, 'Odebrany');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `test`
+--
+
+CREATE TABLE `test` (
+  `Id` int(11) UNSIGNED NOT NULL,
+  `Var` varchar(30) NOT NULL,
+  `Var2` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `test`
+--
+
+INSERT INTO `test` (`Id`, `Var`, `Var2`) VALUES
+(1, 'test', 'test'),
+(2, 'test', 'test'),
+(3, 'test', 'test'),
+(4, 'test', 'test'),
+(5, 'test', 'test'),
+(6, 'test', 'test'),
+(7, 'test', 'test'),
+(8, 'test', 'test'),
+(9, 'test', 'test'),
+(10, '10', '10'),
+(11, '2', '5'),
+(12, '5', '76');
 
 -- --------------------------------------------------------
 
@@ -186,7 +234,8 @@ INSERT INTO `vehicles` (`Id`, `Brand`, `Model`, `Production_Year`, `Vin`, `Regis
 (7, 'Honda', 'Odyssey', '1998', '5UXFB33533L656823', 'MW 25639', 158, 2.4, 1),
 (8, 'Dodge', 'D250 Club', '1992', '3FAHP0CG4AR055761', 'PH 25639', 80, 0.4, 3),
 (9, 'BMW', '6 Series', '2009', 'JH4NA126X3T382131', 'RU 25639', 34, 1.7, 1),
-(10, 'Audi', 'S8', '2009', 'WAUXF78K99A474013', 'GR 25639', 123, 0.8, 2);
+(10, 'Audi', 'S8', '2009', 'WAUXF78K99A474013', 'GR 25639', 123, 0.8, 2),
+(17, 'string', 'string', 'stri', 'string', 'string', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -208,6 +257,7 @@ CREATE TABLE `workers` (
 --
 
 INSERT INTO `workers` (`Id`, `Name`, `LastName`, `Phone_Number`, `Email`, `Hired`) VALUES
+(0, 'brak', 'brak', 'brak', 'brak', 1),
 (1, 'Morty', 'Murfin', '961390756', 'mmurfin0@house.gov', 1),
 (2, 'Serena', 'Gribbell', '539610498', 'sgribbell1@sfgate.com', 0),
 (3, 'Inessa', 'McCaig', '972242759', 'imccaig2@umn.edu', 1),
@@ -227,7 +277,8 @@ INSERT INTO `workers` (`Id`, `Name`, `LastName`, `Phone_Number`, `Email`, `Hired
 -- Indeksy dla tabeli `clients`
 --
 ALTER TABLE `clients`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `Phone_Number` (`Phone_Number`);
 
 --
 -- Indeksy dla tabeli `clients_vehicles_chains`
@@ -260,6 +311,12 @@ ALTER TABLE `statuses`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Indeksy dla tabeli `test`
+--
+ALTER TABLE `test`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indeksy dla tabeli `users`
 --
 ALTER TABLE `users`
@@ -289,19 +346,19 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT dla tabeli `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT dla tabeli `clients_vehicles_chains`
 --
 ALTER TABLE `clients_vehicles_chains`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `commisions`
 --
 ALTER TABLE `commisions`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT dla tabeli `fuel_types`
@@ -316,6 +373,12 @@ ALTER TABLE `statuses`
   MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT dla tabeli `test`
+--
+ALTER TABLE `test`
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
@@ -325,13 +388,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT dla tabeli `vehicles`
 --
 ALTER TABLE `vehicles`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT dla tabeli `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Ograniczenia dla zrzutów tabel
