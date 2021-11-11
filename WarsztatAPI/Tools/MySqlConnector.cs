@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 
 namespace WarsztatAPI.Tools
 {
-    public class MySqlConnector:IDisposable
+    public class MySqlConnector : IDisposable
     {
         const string LOG_FILE = "Mysql.txt";
 
@@ -40,7 +40,8 @@ namespace WarsztatAPI.Tools
             UserID = "root",
             Password = "",
             Database = "warsztat_samochodowy",
-            SslMode = MySqlSslMode.None
+            SslMode = MySqlSslMode.None,
+            AllowUserVariables = true
         };
 
         MySqlConnection _con;
@@ -92,7 +93,7 @@ namespace WarsztatAPI.Tools
             }
         }
 
-        T[] ExecuteQueryResultF<T>(string query)where T:class, new()
+        T[] ExecuteQueryResultF<T>(string query) where T : class, new()
         {
             try
             {
@@ -107,7 +108,7 @@ namespace WarsztatAPI.Tools
                         {
                             record[i] = sqlReader[i];
                         }
-                        
+
                         result.Add(GetObjFromMySql<T>(record));
                     }
                 }
@@ -137,10 +138,10 @@ namespace WarsztatAPI.Tools
             var properties = type.GetProperties();
             for (int i = 0; i < properties.Length; i++, index++)
             {
-                if (properties[i].PropertyType.IsPrimitive || properties[i].PropertyType == typeof(string)||properties[i].PropertyType == typeof(DateTime))
+                if (properties[i].PropertyType.IsPrimitive || properties[i].PropertyType == typeof(string) || properties[i].PropertyType == typeof(DateTime))
                 {
-                   // Console.WriteLine($"PropName:{properties[i].Name} | DataBaseValue:{values[index]}");
-                    properties[i].SetValue(obj,values[index]);
+                    //Console.WriteLine($"{index} = PropName:{properties[i].Name} | DataBaseValue:{(properties[i].PropertyType == typeof(TimeSpan) ? values[index].ToString() :values[index])}");
+                    properties[i].SetValue(obj, values[index]);
                 }
                 else
                 {

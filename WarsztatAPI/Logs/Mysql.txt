@@ -256,3 +256,291 @@ MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQ
    at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
    at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
    at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 83
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where clients_vehicles_chains.Id='2'' at line 1
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlDataReader.Close()
+   at MySql.Data.MySqlClient.MySqlDataReader.Dispose(Boolean disposing)
+   at MySql.Data.MySqlClient.MySqlDataReader.Dispose()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 113
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where clients_vehicles_chains.Id='2'' at line 1
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlDataReader.Close()
+   at MySql.Data.MySqlClient.MySqlDataReader.Dispose(Boolean disposing)
+   at MySql.Data.MySqlClient.MySqlDataReader.Dispose()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 113
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 142
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 142
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 142
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.ArgumentException: Object of type 'System.Int32' cannot be converted to type 'System.UInt32'.
+   at System.RuntimeType.TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast)
+   at System.Reflection.MethodBase.CheckArguments(Object[] parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, Object[] index)
+   at System.Reflection.PropertyInfo.SetValue(Object obj, Object value)
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.ArgumentException: Object of type 'System.String' cannot be converted to type 'System.UInt32'.
+   at System.RuntimeType.TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast)
+   at System.Reflection.MethodBase.CheckArguments(Object[] parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, Object[] index)
+   at System.Reflection.PropertyInfo.SetValue(Object obj, Object value)
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.ArgumentException: Object of type 'System.TimeSpan' cannot be converted to type 'System.DateTime'.
+   at System.RuntimeType.TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast)
+   at System.RuntimeType.CheckValue(Object value, Binder binder, CultureInfo culture, BindingFlags invokeAttr)
+   at System.Reflection.MethodBase.CheckArguments(Object[] parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig)
+   at System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, Object[] index)
+   at System.Reflection.PropertyInfo.SetValue(Object obj, Object value)
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+System.ArgumentException: Property set method not found.
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.SetValue(Object obj, Object value, Object[] index)
+   at System.Reflection.PropertyInfo.SetValue(Object obj, Object value)
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 143
+   at WarsztatAPI.Tools.MySqlConnector.TypeValueSetter(Int32 index, Object obj, Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 147
+   at WarsztatAPI.Tools.MySqlConnector.GetObjFromMySql[T](Object[] values) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 129
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 111
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Duplicate entry 'string' for key 'Phone_Number'
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteSingleQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 31
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''test);
+select last_insert_id()' at line 1
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteSingleQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 31
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Duplicate entry '0' for key 'PRIMARY'
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteSingleQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 31
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'last_insert_id())' at line 1
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteSingleQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 31
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Duplicate entry 'string' for key 'Phone_Number'
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteSingleQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 31
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================NonQueryResult Error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@clientId' must be defined.
+   at MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, String parmName, Int32 parameterIndex)
+   at MySql.Data.MySqlClient.Statement.InternalBindParameters(String sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at MySql.Data.MySqlClient.Statement.BindParameters()
+   at MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteNonQueryResultF(String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 130
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown table 'warsztat_samochodowy.clients'
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 102
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown table 'warsztat_samochodowy.clients'
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 102
+================================ExecuteQueryResult<T> error================================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Not unique table/alias: 'clients_vehicles_chains'
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at WarsztatAPI.Tools.MySqlConnector.ExecuteQueryResultF[T](String query) in D:\moje\Studia zajęcia\Seminarium\WarsztatApi\Tools\MySqlConnector.cs:line 102

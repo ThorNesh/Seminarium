@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,51 @@ namespace WarsztatAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPost("AddFuel")]
+        public ActionResult AddFuel([FromBody] FuelType fuel)
+        {
+            try
+            {
+                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
+                return MySqlConnector.ExecuteNonQueryResult($"insert into fuel_types(Name) values('{fuel}')") > 0 ? Ok("Pomyślnie dodano") : BadRequest("Coś poszło nie tak");
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("Update")]
+        public ActionResult AddFuel([FromHeader] uint id, [FromBody]string fuel)
+        {
+            try
+            {
+                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+
+                return MySqlConnector.ExecuteNonQueryResult($"update fuel_types set Name='{fuel}' where Id = {id}") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

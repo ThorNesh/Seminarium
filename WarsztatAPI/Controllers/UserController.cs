@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,14 +22,18 @@ namespace WarsztatAPI.Controllers
             try
             {
                 var token = JwtService.Verify(Request.Cookies["jwt"]);
-                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"Delete from users where Id = {id}") > 0 ? Ok("Pomyślnie usunięto") : BadRequest("Brak użytkownika");
 
             }
-            catch (InvalidOperationException)
+            catch (ArgumentNullException)
             {
-                return Unauthorized();
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
             }
             catch (Exception e)
             {
@@ -42,7 +47,7 @@ namespace WarsztatAPI.Controllers
             try
             {
                 var token = JwtService.Verify(Request.Cookies["jwt"]);
-                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
@@ -58,13 +63,16 @@ namespace WarsztatAPI.Controllers
 
                 return result > 0 ? Created("Succes", "Pomyślnie utworzono użytkownika") : BadRequest("Coś poszło nie tak");
             }
-            catch (InvalidOperationException)
+            catch (ArgumentNullException)
             {
-                return Unauthorized();
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return BadRequest(e.Message);
             }
         }
@@ -126,9 +134,17 @@ namespace WarsztatAPI.Controllers
                 return Created("Succes", "Refreshed");
 
             }
-            catch (Exception)
+            catch (ArgumentNullException)
             {
-                return Unauthorized();
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 

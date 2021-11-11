@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,14 @@ namespace WarsztatAPI.Controllers
                 Client[] results = MySqlConnector.ExecuteQueryResult<Client>($"select * from clients where Id = {id}");
                 return results.Length > 0 ? Ok(results[0]) : BadRequest("Brak klienta w bazie");
             }
-            catch (ArgumentNullException) { return Unauthorized(); }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
+            }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
@@ -38,8 +46,14 @@ namespace WarsztatAPI.Controllers
                 JwtService.Verify(Request.Cookies["jwt"]);
                 return Ok(MySqlConnector.ExecuteQueryResult<Client>("select * from clients"));
             }
-
-            catch (ArgumentNullException) { return Unauthorized(); }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
+            }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
@@ -54,8 +68,8 @@ namespace WarsztatAPI.Controllers
 
                 return MySqlConnector.ExecuteNonQueryResult($@"
                 insert into clients values(0,'{client.Name}','{client.LastName}','{client.PhoneNumber}','{client.Email}')
-                ")>0 ? 
-                Ok("Pomyślnie dodano klienta") : BadRequest("Coś poszło nie tak") ;
+                ") > 0 ?
+                Ok("Pomyślnie dodano klienta") : BadRequest("Coś poszło nie tak");
             }
             catch (Exception e)
             {
@@ -67,8 +81,20 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
-                return MySqlConnector.ExecuteNonQueryResult($"delete from clients where Id = {id}")>0 ? 
+                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+
+
+                return MySqlConnector.ExecuteNonQueryResult($"delete from clients where Id = {id}") > 0 ?
                     Ok("Pomyślnie usunięto clienta") : BadRequest("Brak klienta w bazie danych");
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
             }
             catch (Exception e)
             {
@@ -76,12 +102,12 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/Name")]
-        public ActionResult UpdateName([FromHeader] uint id,[FromHeader] string name)
+        public ActionResult UpdateName([FromHeader] uint id, [FromHeader] string name)
         {
-            return Update(id,"Name",name);
+            return Update(id, "Name", name);
         }
         [HttpPut("Update/LastName")]
-        public ActionResult UpdateLastName([FromHeader]uint id,[FromHeader] string lastName)
+        public ActionResult UpdateLastName([FromHeader] uint id, [FromHeader] string lastName)
         {
             return Update(id, "LastName", lastName);
         }
@@ -95,12 +121,22 @@ namespace WarsztatAPI.Controllers
         {
             return Update(id, "Email", email);
         }
-        ActionResult Update(uint id, string col,object value)
+        ActionResult Update(uint id, string col, object value)
         {
             try
             {
-                return MySqlConnector.ExecuteNonQueryResult($"update clients set {col}='{value}' where Id = {id}")>0 ? 
+                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień posiadasz uprawnień");
+                return MySqlConnector.ExecuteNonQueryResult($"update clients set {col}='{value}' where Id = {id}") > 0 ?
                     Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
             }
             catch (Exception e)
             {
