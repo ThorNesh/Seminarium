@@ -20,6 +20,11 @@ namespace WarsztatAPI.Controllers
         public string HourOfStart { get; set; }
     }
 
+    public class Variable<T>
+    {
+        public T Var { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class CommisionController : ControllerBase
@@ -30,18 +35,39 @@ namespace WarsztatAPI.Controllers
         {
             return ExecuteApi(jwt =>
             {
-                string code = GenerateCode();
-                var result = MySqlConnector.ExecuteNonQueryResult($@"
-                    start transaction;
-                    insert into clients values(
+                Variable<uint>[] clientId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"Select Id from clients where Phone_Number = '{commision.client.PhoneNumber}'");
+                
+                string insertClients = clientId.Length > 0 ?
+                @$"
+                update clients set 
+                Name='{commision.client.Name}',
+                LastName='{commision.client.LastName}',
+                Email='{commision.client.Email}'
+                where Id={clientId[0].Var};
+                set @clientId = {clientId[0].Var};" 
+                :
+                 @$"insert into clients values(
                     '0',
                     '{commision.client.Name}',
                     '{commision.client.LastName}',
                     '{commision.client.PhoneNumber}',
                     '{commision.client.Email}'
                     );
-                    set @clientId = last_insert_id();
-                    insert into vehicles values(0,
+                    set @clientId = last_insert_id();";
+
+                Variable<uint>[] vehicleId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"select Id from vehicles where Vin='{commision.vehicle.Vin}';");
+
+                Console.WriteLine($"Client:{(clientId.Length>0 ? clientId[0].Var : -1)} | Vehicle:{(vehicleId.Length>0 ? vehicleId[0].Var : -1)}");
+                string insertVehicle = vehicleId.Length > 0 ?
+                $@"update vehicles set
+                `Registration_Number`='{commision.vehicle.RegistrationNumber}',
+                `Engine_Power`='{commision.vehicle.Engine_Power}',
+                `Engine_Capacity`='{commision.vehicle.Engine_Capacity}',
+                `Fuel_Id`='{commision.vehicle.FuelId}'
+                where Id = {vehicleId[0].Var};
+                set @vehicleId = {vehicleId[0].Var};"
+                :
+                $@"insert into vehicles values(0,
                     '{commision.vehicle.Brand}',
                     '{commision.vehicle.Model}',
                     '{commision.vehicle.ProductionYear}',
@@ -51,7 +77,14 @@ namespace WarsztatAPI.Controllers
                     '{commision.vehicle.Engine_Capacity}',
                     '{commision.vehicle.FuelId}'
                     );
-                    set @vehicleId=last_insert_id();
+                set @vehicleId = last_insert_id();";
+
+                string code = GenerateCode();
+                var result = MySqlConnector.ExecuteNonQueryResult($@"
+                    start transaction;
+                    {insertClients}
+                    {insertVehicle}
+                    
                     insert into clients_vehicles_chains values(0,
                     @clientId,
                     @vehicleId,
@@ -104,10 +137,10 @@ namespace WarsztatAPI.Controllers
             return ExecuteApi(jwt =>
             {
                 Commision[] results = MySqlConnector.ExecuteQueryResult<Commision>($@"
-                select commision.Id,
+               select commisions.Id,
 clients_vehicles_chains.Id,
 clients.*,
-vehicle.*,
+vehicles.*,
 fuel_types.Name,
 clients_vehicles_chains.Message,
 clients_vehicles_chains.Service,
@@ -115,13 +148,14 @@ Code,
 Date_Of_Start,
 Hour_Of_Start,
 statuses.*,
-workers.* from clients_vehicles_chains 
-join clients_vehicles_chains on clients_vehicles_chains.Id=Chain_Id
-join clients on clients.Id = clients_vehicles_chains.Client_Id
-join vehicles on vehicles.Id=clients_vehicles_chains.Vehicle_Id
+workers.*
+from commisions
+join clients_vehicles_chains on commisions.Chain_Id = clients_vehicles_chains.Id
+join clients on clients_vehicles_chains.Client_Id = clients.Id
+join vehicles on clients_vehicles_chains.Vehicle_Id = vehicles.Id
 join fuel_types on vehicles.Fuel_Id = fuel_types.Id
-join statuses on commisions.Status_Id=statuses.Id
-join workers on commisions.Worker_Id=workers.Id
+join statuses on commisions.Status_Id = statuses.Id
+join workers on commisions.Worker_Id = workers.Id
 
 where code = '{code}';
                 ");
@@ -132,17 +166,17 @@ where code = '{code}';
 
 
 
-        ActionResult ExecuteApi(Func<string,ActionResult> func, bool authorite = true)
+        ActionResult ExecuteApi(Func<string, ActionResult> func)
         {
             try
             {
                 string jwt = "";
-                if (authorite) jwt = Request.Cookies["jwt"];
+                jwt = Request.Cookies["jwt"];
                 return func(jwt);
             }
             catch (ArgumentNullException)
             {
-                 return Unauthorized("Nie jesteś zalogowany");
+                return Unauthorized("Nie jesteś zalogowany");
             }
             catch (SecurityTokenExpiredException)
             {

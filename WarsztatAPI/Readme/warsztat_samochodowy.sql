@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 11 Lis 2021, 14:03
+-- Czas generowania: 12 Lis 2021, 21:18
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.11
 
@@ -42,7 +42,7 @@ CREATE TABLE `clients` (
 INSERT INTO `clients` (`Id`, `Name`, `LastName`, `Phone_Number`, `Email`) VALUES
 (1, 'Yasmeen', 'De la Feld', '387766289', 'ydelafeld0@jugem.jp'),
 (2, 'Antonius', 'Fawdrie', '511677847', 'afawdrie1@usa.gov'),
-(3, 'Niles', 'Dubique', '146702208', 'ndubique2@typepad.com'),
+(3, 'Adam', 'Nowak', '146702208', 'AdamN@wp.pl'),
 (4, 'Sergent', 'Figgins', '264494303', 'sfiggins3@hatena.ne.jp'),
 (5, 'Rusty', 'Leffek', '769517354', 'rleffek4@geocities.com'),
 (6, 'Tybie', 'Willox', '555973457', 'twillox5@weibo.com'),
@@ -73,7 +73,8 @@ CREATE TABLE `clients_vehicles_chains` (
 INSERT INTO `clients_vehicles_chains` (`Id`, `Client_Id`, `Vehicle_Id`, `Message`, `Service`) VALUES
 (1, 2, 4, 'Test', 'Test'),
 (2, 5, 2, 'Test2', 'Test2'),
-(6, 32, 17, 'string', 'string');
+(6, 32, 17, 'string', 'string'),
+(7, 3, 3, 'Tescik', 'Tescik');
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,8 @@ CREATE TABLE `commisions` (
 
 INSERT INTO `commisions` (`Id`, `Chain_Id`, `Code`, `Date_Of_Start`, `Hour_Of_Start`, `Status_Id`, `Worker_Id`) VALUES
 (1, 1, 'AwS09FxR', '2021-11-10', '22:07:12', 1, 1),
-(5, 6, 'bXjmgKC8', 'string', 'string', 1, 0);
+(5, 6, 'bXjmgKC8', 'string', 'string', 1, 0),
+(6, 7, 'FgqbrxKH', '21.07.25', '12:00:00', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -227,7 +229,7 @@ CREATE TABLE `vehicles` (
 INSERT INTO `vehicles` (`Id`, `Brand`, `Model`, `Production_Year`, `Vin`, `Registration_Number`, `Engine_Power`, `Engine_Capacity`, `Fuel_Id`) VALUES
 (1, 'Pontiac', 'Aztek', '2002', '1FMCU0D75AK929270', 'PA 25639', 61, 2.9, 4),
 (2, 'Cadillac', 'CTS', '2010', 'SALAC2D40BA567061', 'SI 25639', 206, 0.2, 3),
-(3, 'Lincoln', 'Continental', '1996', 'WA1AM74L29D164307', 'BY 25639', 85, 1.2, 3),
+(3, 'Lincoln', 'Continental', '1996', 'WA1AM74L29D164307', 'PKN 85B21', 500, 6, 5),
 (4, 'Acura', 'Legend', '1988', 'WBAKN9C53FD240759', 'LV 25639', 70, 2.4, 4),
 (5, 'Land Rover', 'Freelander', '2001', '3VW467AT6DM028984', 'BR 25639', 115, 2.7, 2),
 (6, 'Ford', 'Falcon', '1967', '1GYFK56269R790935', 'CN 25639', 262, 2.8, 1),
@@ -329,6 +331,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `vehicles`
   ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `Vin` (`Vin`),
   ADD KEY `Fuel_Id_2` (`Fuel_Id`);
 
 --
@@ -346,19 +349,19 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT dla tabeli `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT dla tabeli `clients_vehicles_chains`
 --
 ALTER TABLE `clients_vehicles_chains`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT dla tabeli `commisions`
 --
 ALTER TABLE `commisions`
-  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `fuel_types`
