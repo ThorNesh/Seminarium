@@ -140,7 +140,7 @@ namespace WarsztatAPI.Tools
             {
                 if (properties[i].PropertyType.IsPrimitive || properties[i].PropertyType == typeof(string) || properties[i].PropertyType == typeof(DateTime))
                 {
-                    Console.WriteLine($"{index} = PropName:{properties[i].Name} | DataBaseValue:{(properties[i].PropertyType == typeof(TimeSpan) ? values[index].ToString() :values[index])}");
+                    //Console.WriteLine($"{index} = PropName:{properties[i].Name} | DataBaseValue:{(properties[i].PropertyType == typeof(TimeSpan) ? values[index].ToString() :values[index])}");
                     properties[i].SetValue(obj, values[index]);
                 }
                 else

@@ -52,10 +52,9 @@ namespace WarsztatAPI
             app.UseRouting();
 
             app.UseCors(opt=>opt
-            .WithOrigins()
+            .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials()
             );
 
             app.UseAuthorization();
