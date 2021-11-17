@@ -47,15 +47,12 @@ namespace WarsztatAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WarsztatAPI v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+
 
             app.UseRouting();
 
-            app.UseCors(opt=>opt
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            );
+            app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseAuthorization();
 
