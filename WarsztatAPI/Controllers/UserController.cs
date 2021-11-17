@@ -16,8 +16,9 @@ namespace WarsztatAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+
         [HttpDelete]
-        public ActionResult Delete([FromHeader]uint id)
+        public ActionResult Delete([FromHeader] uint id)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace WarsztatAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpPost("Register")]
         public ActionResult Register([FromBody] UserDB user)
         {
@@ -84,7 +85,7 @@ namespace WarsztatAPI.Controllers
                 Models.User[] user = MySqlConnector.ExecuteQueryResult<User>($"select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id where Login = '{login}'");
 
 
-                if (user.Length<=0) return BadRequest("Błędne dane logowania");
+                if (user.Length <= 0) return BadRequest("Błędne dane logowania");
                 if (!user[0].Worker_Id.Hired) return Unauthorized("Nie jesteś zatrudniony");
                 if (!BCrypt.Net.BCrypt.Verify(password, user[0].Password)) return BadRequest("Błędne dane logowania");
 
@@ -92,8 +93,11 @@ namespace WarsztatAPI.Controllers
 
                 Claim[] claims = new Claim[] { new Claim("IsSuperUser", user[0].IsSuperUser.ToString()), new Claim("Hired", user[0].Worker_Id.Hired.ToString()) };
                 var token = JwtService.Generate(user[0].Id, claims);
-                Response.Cookies.Append("jwt", token);
-                return Ok("Pomyślnie zalogowano");
+                return Ok(new
+                {
+                    Mess = "Pomyślnie zalogowano",
+                    Resutl = token
+                });
             }
             catch (NullReferenceException)
             {

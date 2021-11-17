@@ -28,6 +28,7 @@ namespace WarsztatAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+           
 
             services.AddControllers();
 
@@ -46,7 +47,6 @@ namespace WarsztatAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WarsztatAPI v1"));
             }
-
             //app.UseHttpsRedirection();
 
 
