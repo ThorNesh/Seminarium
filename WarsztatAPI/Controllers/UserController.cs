@@ -42,28 +42,8 @@ namespace WarsztatAPI.Controllers
             }
         }
 
-        [HttpGet("IsSuperUser")]
-        public ActionResult IsSuperUser()
-        {
-            try
-            {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
-                UserDB[] user = MySqlConnector.ExecuteQueryResult<UserDB>($"select * from users where Id= {token.Issuer}");
-                return user.Length > 0 ? Ok(user[0].IsSuperUser) : BadRequest("Coś poszło nie tak");
-            }
-            catch (ArgumentNullException)
-            {
-                return Unauthorized("Nie jesteś zalogowany");
-            }
-            catch (SecurityTokenExpiredException)
-            {
-                return Unauthorized("Przekroczono czas sesji");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        
+        
 
         [HttpPost("Register")]
         public ActionResult Register([FromBody] UserDB user)
@@ -119,6 +99,7 @@ namespace WarsztatAPI.Controllers
                 return Ok(new
                 {
                     Mess = "Pomyślnie zalogowano",
+                    IsSuperUser = user[0].IsSuperUser,
                     Resutl = token
                 });
             }
