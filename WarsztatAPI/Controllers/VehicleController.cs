@@ -234,11 +234,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/Brand")]
-        public ActionResult UpdateBrand([FromHeader] uint id, [FromHeader] string brand)
+        public ActionResult UpdateBrand([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string brand)
         {
             try
             {
-                return Update(id, "Brand", brand);
+                return Update(authorization, id, "Brand", brand);
             }
             catch (ArgumentNullException)
             {
@@ -318,7 +318,7 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
-                return Update(authorization id, "Registration_Number", registrationNumber);
+                return Update(authorization, id, "Registration_Number", registrationNumber);
             }
             catch (ArgumentNullException)
             {

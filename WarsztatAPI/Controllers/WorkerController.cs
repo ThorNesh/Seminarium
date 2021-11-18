@@ -137,7 +137,7 @@ namespace WarsztatAPI.Controllers
         [HttpPut("UpdateName")]
         public ActionResult UpdateName([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string name)
         {
-            return Update(authorization id, "Name", name);
+            return Update(authorization, id, "Name", name);
         }
         [HttpPut("UpdateLastname")]
         public ActionResult UpdateLastname([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string lastname)
