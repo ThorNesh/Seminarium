@@ -40,11 +40,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPost("AddFuel")]
-        public ActionResult AddFuel([FromBody] FuelType fuel)
+        public ActionResult AddFuel([FromHeader] string authorization, [FromBody] FuelType fuel)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"insert into fuel_types(Name) values('{fuel}')") > 0 ? Ok("Pomyślnie dodano") : BadRequest("Coś poszło nie tak");
@@ -63,11 +63,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult AddFuel([FromHeader] uint id, [FromBody]string fuel)
+        public ActionResult AddFuel([FromHeader] string authorization, [FromHeader] uint id, [FromBody]string fuel)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"update fuel_types set Name='{fuel}' where Id = {id}") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");

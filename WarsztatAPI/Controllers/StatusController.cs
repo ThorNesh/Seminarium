@@ -41,11 +41,11 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Status status)
+        public ActionResult Post([FromHeader] string authorization, [FromBody] Status status)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString().ToLower()) is null) return Unauthorized("Brak uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"insert into statuses values(0,'{status.Name}')") > 0 ?
@@ -65,11 +65,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut]
-        public ActionResult Update([FromHeader] uint id,[FromHeader] string name)
+        public ActionResult Update([FromHeader] string authorization, [FromHeader] uint id,[FromHeader] string name)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString().ToLower()) is null) return Unauthorized("Brak uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"Update statuses set Name='{name}' where Id = {id}") > 0 ?

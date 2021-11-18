@@ -15,24 +15,24 @@ namespace WarsztatAPI.Controllers
     public class ChainsController : ControllerBase
     {
         [HttpGet("GetAll")]
-        public ActionResult GetAll()
+        public ActionResult GetAll([FromHeader] string authorization)
         {
-            return ExecuteGet(()=>Ok(Filter("0",0)));
+            return ExecuteGet(authorization,()=>Ok(Filter("0",0)));
         }
         [HttpGet("Get")]
-        public ActionResult Get([FromHeader] uint id)
+        public ActionResult Get([FromHeader] string authorization, [FromHeader] uint id)
         {
-            return ExecuteGet(()=> {
+            return ExecuteGet(authorization,()=> {
                 Chains[] results = Filter("clients_vehicles_chains.Id", id);
                 return results.Length > 0 ? Ok(results[0]) : BadRequest("Brak powiązania");
             });
         }
 
-        ActionResult ExecuteGet(Func<ActionResult> func)
+        ActionResult ExecuteGet(string authorization, Func<ActionResult> func)
         {
             try
             {
-                JwtService.Verify(Request.Cookies["jwt"]);
+                JwtService.Verify(authorization);
                 return func();
             }
             catch (ArgumentNullException)
@@ -61,11 +61,11 @@ where {col}='{var}';
         }
 
         [HttpDelete]
-        public ActionResult Delete([FromHeader] uint id)
+        public ActionResult Delete([FromHeader] string authorization, [FromHeader] uint id)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"Delete from clients_vehicles_chains where Id={id}") > 0 ? Ok("Pomyślnie usunięto") : BadRequest("Brak powiązania");
@@ -86,31 +86,31 @@ where {col}='{var}';
         }
 
         [HttpPut("Update/Client")]
-        public ActionResult UpdateClient([FromHeader] uint id,[FromHeader]uint clientId)
+        public ActionResult UpdateClient([FromHeader] string authorization, [FromHeader] uint id,[FromHeader]uint clientId)
         {
-            return ExecuteUpdate(id, "Client_Id", clientId);
+            return ExecuteUpdate(authorization, id, "Client_Id", clientId);
         }
         [HttpPut("Update/Vehicle")]
-        public ActionResult UpdateVehicle([FromHeader] uint id, [FromHeader] uint vehicleId)
+        public ActionResult UpdateVehicle([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] uint vehicleId)
         {
-            return ExecuteUpdate(id,"Vehicle_Id",vehicleId);
+            return ExecuteUpdate(authorization, id,"Vehicle_Id",vehicleId);
         }
         [HttpPut("Update/Message")]
-        public ActionResult UpdateMessage([FromHeader] uint id, [FromHeader] string message)
+        public ActionResult UpdateMessage([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string message)
         {
-            return ExecuteUpdate(id, "Message", message);
+            return ExecuteUpdate(authorization, id, "Message", message);
         }
         [HttpPut("Update/Service")]
-        public ActionResult UpdateService([FromHeader] uint id, [FromHeader] string service)
+        public ActionResult UpdateService([FromHeader] string authorization,[FromHeader] uint id, [FromHeader] string service)
         {
-            return ExecuteUpdate(id, "Message", service);
+            return ExecuteUpdate(authorization, id, "Message", service);
         }
 
-        private ActionResult ExecuteUpdate(uint id, string col, object var)
+        private ActionResult ExecuteUpdate(string authorization, uint id, string col, object var)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($@"

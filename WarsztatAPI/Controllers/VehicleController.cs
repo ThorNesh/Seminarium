@@ -15,12 +15,12 @@ namespace WarsztatAPI.Controllers
     public class VehicleController : ControllerBase
     {
         [HttpGet("GetAll")]
-        public ActionResult GetAll()
+        public ActionResult GetAll([FromHeader] string authorization)
         {
 
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 Vehicle[] results = MySqlConnector.ExecuteQueryResult<Vehicle>($"Select vehicles.*,fuel_types.Name from vehicles join fuel_types on vehicles.Fuel_Id=fuel_types.Id group by Vehicles.Id;");
                 return Ok(results);
             }
@@ -39,11 +39,11 @@ namespace WarsztatAPI.Controllers
 
         }
         [HttpGet("Get")]
-        public ActionResult Get([FromHeader] uint id)
+        public ActionResult Get([FromHeader] string authorization, [FromHeader] uint id)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 Vehicle[] results = Filter("vehicles.Id", id);
                 return results.Length > 0 ? Ok(results[0]) : BadRequest("Brak pojazdu");
             }
@@ -62,11 +62,11 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpGet("Filter/Brand")]
-        public ActionResult FilterBrand([FromHeader] string brand)
+        public ActionResult FilterBrand([FromHeader] string authorization, [FromHeader] string brand)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 return Ok(Filter("Brand", brand));
 
             }
@@ -84,11 +84,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpGet("Filter/Model")]
-        public ActionResult FilterModel([FromHeader] string model)
+        public ActionResult FilterModel([FromHeader] string authorization, [FromHeader] string model)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 return Ok(Filter("Model", model));
             }
             catch (ArgumentNullException)
@@ -105,11 +105,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpGet("Filter/ProductionYear")]
-        public ActionResult FilterProductionYear([FromHeader] uint min, [FromHeader] uint max)
+        public ActionResult FilterProductionYear([FromHeader] string authorization, [FromHeader] uint min, [FromHeader] uint max)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 return Ok(FilterRange("Production_Year", min, max));
             }
             catch (ArgumentNullException)
@@ -126,11 +126,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpGet("Search/Vin")]
-        public ActionResult SearchVin([FromHeader] string vin)
+        public ActionResult SearchVin([FromHeader] string authorization, [FromHeader] string vin)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 Vehicle[] results = Filter("Vin", vin);
                 return results.Length > 0 ? Ok(results[0]) : BadRequest("Brak pojazdu");
             }
@@ -149,11 +149,11 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpGet("Filter/EnginePower")]
-        public ActionResult FilterEnginePower([FromHeader] uint min, [FromHeader] uint max)
+        public ActionResult FilterEnginePower([FromHeader] string authorization, [FromHeader] uint min, [FromHeader] uint max)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 return Ok(FilterRange("Engine_Power", min, max));
             }
             catch (ArgumentNullException)
@@ -170,11 +170,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpGet("Filter/EngineCapacity")]
-        public ActionResult FilterEngineCapacity([FromHeader] uint min, [FromHeader] uint max)
+        public ActionResult FilterEngineCapacity([FromHeader] string authorization, [FromHeader] uint min, [FromHeader] uint max)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 return Ok(FilterRange("Engine_Capacity", min, max));
             }
             catch (ArgumentNullException)
@@ -191,11 +191,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpGet("Filter/FuelType")]
-        public ActionResult FilterFuelType([FromHeader] uint fuelType)
+        public ActionResult FilterFuelType([FromHeader] string authorization, [FromHeader] uint fuelType)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 return Ok(Filter("Fuel_Id", fuelType));
             }
             catch (ArgumentNullException)
@@ -254,11 +254,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/Model")]
-        public ActionResult UpdateModel([FromHeader] uint id, [FromHeader] string model)
+        public ActionResult UpdateModel([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string model)
         {
             try
             {
-                return Update(id, "Model", model);
+                return Update(authorization, id, "Model", model);
             }
             catch (ArgumentNullException)
             {
@@ -274,11 +274,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/ProductionYear")]
-        public ActionResult UpdateProductionYear([FromHeader] uint id, [FromHeader] string productionYear)
+        public ActionResult UpdateProductionYear([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string productionYear)
         {
             try
             {
-                return Update(id, "Production_Year", productionYear);
+                return Update(authorization, id, "Production_Year", productionYear);
             }
             catch (ArgumentNullException)
             {
@@ -294,11 +294,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/Vin")]
-        public ActionResult UpdateVin([FromHeader] uint id, [FromHeader] string vin)
+        public ActionResult UpdateVin([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string vin)
         {
             try
             {
-                return Update(id, "Vin", vin);
+                return Update(authorization, id, "Vin", vin);
             }
             catch (ArgumentNullException)
             {
@@ -314,11 +314,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/RegistrationNumber")]
-        public ActionResult UpdateRegistrationNumber([FromHeader] uint id, [FromHeader] string registrationNumber)
+        public ActionResult UpdateRegistrationNumber([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string registrationNumber)
         {
             try
             {
-                return Update(id, "Registration_Number", registrationNumber);
+                return Update(authorization id, "Registration_Number", registrationNumber);
             }
             catch (ArgumentNullException)
             {
@@ -334,11 +334,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/EnginePower")]
-        public ActionResult UpdateEnginePower([FromHeader] uint id, [FromHeader] uint enginePower)
+        public ActionResult UpdateEnginePower([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] uint enginePower)
         {
             try
             {
-                return Update(id, "Engine_Power", enginePower);
+                return Update(authorization, id, "Engine_Power", enginePower);
             }
             catch (ArgumentNullException)
             {
@@ -354,11 +354,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/EngineCapacity")]
-        public ActionResult UpdateEngineCapacity([FromHeader] uint id, [FromHeader] float engineCapacity)
+        public ActionResult UpdateEngineCapacity([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] float engineCapacity)
         {
             try
             {
-                return Update(id, "Engine_Capacity", engineCapacity);
+                return Update(authorization, id, "Engine_Capacity", engineCapacity);
             }
             catch (ArgumentNullException)
             {
@@ -374,11 +374,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpPut("Update/FuelType")]
-        public ActionResult UpdateFuelType([FromHeader] uint id, [FromHeader] uint fuelType)
+        public ActionResult UpdateFuelType([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] uint fuelType)
         {
             try
             {
-                return Update(id, "Fuel_Id", fuelType);
+                return Update(authorization, id, "Fuel_Id", fuelType);
             }
             catch (ArgumentNullException)
             {
@@ -395,20 +395,20 @@ namespace WarsztatAPI.Controllers
         }
 
 
-        ActionResult Update(uint id, string col, object var)
+        ActionResult Update(string authorization, uint id, string col, object var)
         {
-            var token = JwtService.Verify(Request.Cookies["jwt"]);
+            var token = JwtService.Verify(authorization);
             if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
             return MySqlConnector.ExecuteNonQueryResult($"update vehicles set {col}='{var}' where Id = {id}")
                 > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
         }
 
         [HttpDelete]
-        public ActionResult Delete([FromHeader] uint id)
+        public ActionResult Delete([FromHeader] string authorization, [FromHeader] uint id)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
                 return MySqlConnector.ExecuteNonQueryResult($"delete from vehicles where Id = {id}")
                     > 0 ? Ok("Pomyślnie usunięto") : BadRequest("Brak pojazdu");

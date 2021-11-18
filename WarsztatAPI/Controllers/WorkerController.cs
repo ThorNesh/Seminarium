@@ -19,11 +19,11 @@ namespace WarsztatAPI.Controllers
     public class WorkerController : ControllerBase
     {
         [HttpGet("Get")]
-        public ActionResult Get([FromHeader] uint id)
+        public ActionResult Get([FromHeader] string authorization, [FromHeader] uint id)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (uint.Parse(token.Issuer) != id)
                     if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
 
@@ -44,11 +44,11 @@ namespace WarsztatAPI.Controllers
             }
         }
         [HttpGet("GetAll")]
-        public ActionResult GetAll()
+        public ActionResult GetAll([FromHeader] string authorization)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
                 return Ok(MySqlConnector.ExecuteQueryResult<Worker>("Select * from workers"));
             }
@@ -63,21 +63,21 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpGet("FilterByName")]
-        public ActionResult FilterByName([FromHeader] string name)
+        public ActionResult FilterByName([FromHeader] string authorization, [FromHeader] string name)
         {
-            return Filter("Name",name);
+            return Filter(authorization, "Name",name);
         }
         [HttpGet("FilterByLastname")]
-        public ActionResult FilterByLastname([FromHeader] string lastname)
+        public ActionResult FilterByLastname([FromHeader] string authorization, [FromHeader] string lastname)
         {
-            return Filter("LastName", lastname);
+            return Filter(authorization, "LastName", lastname);
         }
 
-        private ActionResult Filter(string col,object var)
+        private ActionResult Filter(string authorization, string col,object var)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
 
                 return Ok(MySqlConnector.ExecuteQueryResult<Worker>($@"
@@ -100,11 +100,11 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Worker worker)
+        public ActionResult Post([FromHeader] string authorization, [FromBody] Worker worker)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
 
                 return MySqlConnector.ExecuteNonQueryResult(@$"
@@ -135,36 +135,36 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpPut("UpdateName")]
-        public ActionResult UpdateName([FromHeader] uint id, [FromHeader] string name)
+        public ActionResult UpdateName([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string name)
         {
-            return Update(id, "Name", name);
+            return Update(authorization id, "Name", name);
         }
         [HttpPut("UpdateLastname")]
-        public ActionResult UpdateLastname([FromHeader] uint id, [FromHeader] string lastname)
+        public ActionResult UpdateLastname([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string lastname)
         {
-            return Update(id, "LastName", lastname);
+            return Update(authorization, id, "LastName", lastname);
         }
         [HttpPut("UpdatePhoneNumber")]
-        public ActionResult UpdatePhoneNumber([FromHeader] uint id, [FromHeader] string phoneNumber)
+        public ActionResult UpdatePhoneNumber([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string phoneNumber)
         {
-            return Update(id, "Phone_Number", phoneNumber);
+            return Update(authorization, id, "Phone_Number", phoneNumber);
         }
         [HttpPut("UpdateEmail")]
-        public ActionResult UpdateEmail([FromHeader] uint id, [FromHeader] string email)
+        public ActionResult UpdateEmail([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string email)
         {
-            return Update(id, "Email", email);
+            return Update(authorization, id, "Email", email);
         }
         [HttpPut("UpdateHired")]
-        public ActionResult UpdateHired([FromHeader] uint id, [FromHeader] string hired)
+        public ActionResult UpdateHired([FromHeader] string authorization, [FromHeader] uint id, [FromHeader] string hired)
         {
-            return Update(id, "Hired", hired);
+            return Update(authorization, id, "Hired", hired);
         }
 
-        private ActionResult Update(uint id, string col, string var)
+        private ActionResult Update(string authorization,uint id, string col, string var)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (uint.Parse(token.Issuer) != id)
                     if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
 

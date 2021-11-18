@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,8 +29,22 @@ namespace WarsztatAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
+            services.AddCookiePolicy(opt =>
+            {
+                opt.MinimumSameSitePolicy = SameSiteMode.Strict;
+                opt.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always;
+                opt.ConsentCookie = new CookieBuilder
+                {
+                    Expiration = TimeSpan.FromMinutes(15),
+                    HttpOnly = true,
+                    IsEssential = true,
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest,
+                    SameSite = SameSiteMode.Strict
+                };
+            });
             services.AddCors();
-           
 
             services.AddControllers();
 
@@ -52,10 +68,10 @@ namespace WarsztatAPI
 
             app.UseRouting();
 
-            app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-
             app.UseAuthorization();
 
+            app.UseCookiePolicy();
+            app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(ori => true).AllowCredentials());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -18,11 +18,11 @@ namespace WarsztatAPI.Controllers
     {
 
         [HttpDelete]
-        public ActionResult Delete([FromHeader] uint id)
+        public ActionResult Delete([FromHeader] string authorization,[FromHeader] uint id)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"Delete from users where Id = {id}") > 0 ? Ok("Pomyślnie usunięto") : BadRequest("Brak użytkownika");
@@ -42,15 +42,15 @@ namespace WarsztatAPI.Controllers
             }
         }
 
-        
-        
+
+
 
         [HttpPost("Register")]
-        public ActionResult Register([FromBody] UserDB user)
+        public ActionResult Register([FromHeader] string authorization, [FromBody] UserDB user)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
                 if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
@@ -80,6 +80,7 @@ namespace WarsztatAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         [HttpPost("Login")]
         public ActionResult Login([FromHeader] string login, [FromHeader] string password)
         {
@@ -96,6 +97,8 @@ namespace WarsztatAPI.Controllers
 
                 Claim[] claims = new Claim[] { new Claim("IsSuperUser", user[0].IsSuperUser.ToString()), new Claim("Hired", user[0].Worker_Id.Hired.ToString()) };
                 var token = JwtService.Generate(user[0].Id, claims);
+
+
                 return Ok(new
                 {
                     Mess = "Pomyślnie zalogowano",
@@ -112,36 +115,14 @@ namespace WarsztatAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpPost("Logout")]
-        public ActionResult Logout()
-        {
-            if (!string.IsNullOrWhiteSpace(Request.Cookies["jwt"]))
-            {
-                Response.Cookies.Delete("jwt");
-                return Ok("Wylogowano");
-            }
-            else
-                return Unauthorized();
-        }
         [HttpPost("Refresh")]
-        public ActionResult Refresh()
+        public ActionResult Refresh([FromHeader] string authorization)
         {
             try
             {
-                var token = JwtService.Verify(Request.Cookies["jwt"]);
+                var token = JwtService.Verify(authorization);
 
-                Claim[] claims = new Claim[token.Claims.Count()];
-                for (int i = 0; i < token.Claims.Count(); i++)
-                {
-                    claims[i] = token.Claims.ElementAt(i);
-                }
-                Response.Cookies.Delete("jwt");
-                Response.Cookies.Append(
-                    "jwt",
-                    JwtService.Generate(uint.Parse(token.Issuer), claims),
-                    new CookieOptions { HttpOnly = true });
-                return Created("Succes", "Refreshed");
+                return Created("Succes", JwtService.Generate(uint.Parse(token.Issuer), (Claim[])token.Claims));
 
             }
             catch (ArgumentNullException)

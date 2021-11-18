@@ -31,9 +31,9 @@ namespace WarsztatAPI.Controllers
     {
 
         [HttpPost]
-        public ActionResult Post([FromBody] CommisionDTO commision)
+        public ActionResult Post([FromHeader] string authorization, [FromBody] CommisionDTO commision)
         {
-            return ExecuteApi(jwt =>
+            return ExecuteApi(authorization, jwt =>
             {
                 Variable<uint>[] clientId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"Select Id from clients where Phone_Number = '{commision.client.PhoneNumber}'");
                 
@@ -132,9 +132,9 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpGet("Get")]
-        public ActionResult Get([FromHeader] string code)
+        public ActionResult Get([FromHeader] string authorization, [FromHeader] string code)
         {
-            return ExecuteApi(jwt =>
+            return ExecuteApi(authorization, jwt =>
             {
                 Commision[] results = MySqlConnector.ExecuteQueryResult<Commision>($@"
                select commisions.Id,
@@ -166,12 +166,11 @@ where code = '{code}';
 
 
 
-        ActionResult ExecuteApi(Func<string, ActionResult> func)
+        ActionResult ExecuteApi(string authorization, Func<string, ActionResult> func)
         {
             try
             {
-                string jwt = "";
-                jwt = Request.Cookies["jwt"];
+                string jwt = string.IsNullOrWhiteSpace(authorization) ? "" : authorization;
                 return func(jwt);
             }
             catch (ArgumentNullException)
