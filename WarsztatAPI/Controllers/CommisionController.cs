@@ -31,9 +31,9 @@ namespace WarsztatAPI.Controllers
     {
 
         [HttpPost]
-        public ActionResult Post([FromHeader] string authorization, [FromBody] CommisionDTO commision)
+        public ActionResult Post([FromBody] CommisionDTO commision)
         {
-            return ExecuteApi(authorization, jwt =>
+            return ExecuteApi("", jwt =>
             {
                 Variable<uint>[] clientId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"Select Id from clients where Phone_Number = '{commision.client.PhoneNumber}'");
                 
@@ -132,9 +132,9 @@ namespace WarsztatAPI.Controllers
         }
 
         [HttpGet("Get")]
-        public ActionResult Get([FromHeader] string authorization, [FromHeader] string code)
+        public ActionResult Get([FromHeader] string code)
         {
-            return ExecuteApi(authorization, jwt =>
+            return ExecuteApi("", jwt =>
             {
                 Commision[] results = MySqlConnector.ExecuteQueryResult<Commision>($@"
                select commisions.Id,
