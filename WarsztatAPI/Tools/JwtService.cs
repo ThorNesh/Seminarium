@@ -16,7 +16,7 @@ namespace WarsztatAPI.Tools
             var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var headers = new JwtHeader(credentials);
 
-            var payload = new JwtPayload(id.ToString(), null, claims, null, DateTime.Now.AddMinutes(15));
+            var payload = new JwtPayload(id.ToString(), null, claims, null, DateTime.Now.AddHours(2));
             var securityToken = new JwtSecurityToken(headers, payload);
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
