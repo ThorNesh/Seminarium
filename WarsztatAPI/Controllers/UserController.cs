@@ -16,9 +16,32 @@ namespace WarsztatAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        [HttpGet("GetAll")]
+        public ActionResult GetAll([FromHeader] string authorization)
+        {
+            try
+            {
+                var token = JwtService.Verify(authorization);
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+
+                return Ok(MySqlConnector.ExecuteQueryResult<User>("select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id"));
+            }
+            catch (ArgumentNullException)
+            {
+                return Unauthorized("Nie jesteś zalogowany");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized("Przekroczono czas sesji");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpDelete]
-        public ActionResult Delete([FromHeader] string authorization,[FromHeader] uint id)
+        public ActionResult Delete([FromHeader] string authorization, [FromHeader] uint id)
         {
             try
             {
