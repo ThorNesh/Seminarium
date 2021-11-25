@@ -16,136 +16,163 @@ namespace WarsztatAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+
+
         [HttpGet("GetAll")]
         public ActionResult GetAll([FromHeader] string authorization)
         {
-            try
-            {
-                var token = JwtService.Verify(authorization);
-                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+            return ExecuteApi(authorization, token =>
+                 {
+                     if (token is null) return Unauthorized("Nie jesteś zalogowany");
+                     if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
-                return Ok(MySqlConnector.ExecuteQueryResult<User>("select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id"));
-            }
-            catch (ArgumentNullException)
-            {
-                return Unauthorized("Nie jesteś zalogowany");
-            }
-            catch (SecurityTokenExpiredException)
-            {
-                return Unauthorized("Przekroczono czas sesji");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+                     return Ok(MySqlConnector.ExecuteQueryResult<User>("select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id"));
+                 });
         }
 
         [HttpDelete]
         public ActionResult Delete([FromHeader] string authorization, [FromHeader] uint id)
         {
-            try
-            {
-                var token = JwtService.Verify(authorization);
-                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+            return ExecuteApi(authorization, token =>
+                 {
+                     if (token is null) return Unauthorized("Nie jesteś zalogowany");
+                     if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
-                return MySqlConnector.ExecuteNonQueryResult($"Delete from users where Id = {id}") > 0 ? Ok("Pomyślnie usunięto") : BadRequest("Brak użytkownika");
+                     return MySqlConnector.ExecuteNonQueryResult($"Delete from users where Id = {id}") > 0 ? Ok("Pomyślnie usunięto") : BadRequest("Brak użytkownika");
 
-            }
-            catch (ArgumentNullException)
-            {
-                return Unauthorized("Nie jesteś zalogowany");
-            }
-            catch (SecurityTokenExpiredException)
-            {
-                return Unauthorized("Przekroczono czas sesji");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+                 });
         }
 
 
 
-
-        [HttpPost("Register")]
-        public ActionResult Register([FromHeader] string authorization, [FromBody] UserDB user)
+        public class UserDTO
         {
-            try
-            {
-                var token = JwtService.Verify(authorization);
-                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+            public string Login { get; set; }
+            public string Password { get; set; }
+            public uint Worker_Id { get; set; } 
+        }
+        [HttpPost("Register")]
+        public ActionResult Register([FromHeader] string authorization, [FromBody] UserDTO user)
+        {
+            return ExecuteApi(authorization, token =>
+                {
 
-                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                    if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
-                var result = MySqlConnector.ExecuteNonQueryResult($@"
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
+                    var result = MySqlConnector.ExecuteNonQueryResult($@"
                 insert into users values(
                 0,
                 '{user.Login}'
                 '{user.Password}',
                 {user.Worker_Id},
-                {(user.IsSuperUser ? 1 : 0)}
+                0,
+                0
                 )
                 ");
 
-                return result > 0 ? Created("Succes", "Pomyślnie utworzono użytkownika") : BadRequest("Coś poszło nie tak");
-            }
-            catch (ArgumentNullException)
-            {
-                return Unauthorized("Nie jesteś zalogowany");
-            }
-            catch (SecurityTokenExpiredException)
-            {
-                return Unauthorized("Przekroczono czas sesji");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+                    return result > 0 ? Created("Succes", "Pomyślnie utworzono użytkownika") : BadRequest("Coś poszło nie tak");
+                });
         }
 
         [HttpPost("Login")]
         public ActionResult Login([FromHeader] string login, [FromHeader] string password)
         {
-            try
-            {
-                Models.User[] user = MySqlConnector.ExecuteQueryResult<User>($"select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id where Login = '{login}'");
-
-
-                if (user.Length <= 0) return BadRequest("Błędne dane logowania");
-                if (!user[0].Worker_Id.Hired) return Unauthorized("Nie jesteś zatrudniony");
-                if (!BCrypt.Net.BCrypt.Verify(password, user[0].Password)) return BadRequest("Błędne dane logowania");
-
-
-
-                Claim[] claims = new Claim[] { new Claim("IsSuperUser", user[0].IsSuperUser.ToString()), new Claim("Hired", user[0].Worker_Id.Hired.ToString()) };
-                var token = JwtService.Generate(user[0].Id, claims);
-
-
-                return Ok(new
+            return ExecuteApi("", token =>
                 {
-                    Mess = "Pomyślnie zalogowano",
-                    IsSuperUser = user[0].IsSuperUser,
-                    Resutl = token
+
+                    Models.User[] user = MySqlConnector.ExecuteQueryResult<User>($"select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id where Login = '{login}'");
+
+
+                    if (user.Length <= 0) return BadRequest("Błędne dane logowania");
+                    if (!user[0].Worker_Id.Hired) return Unauthorized("Nie jesteś zatrudniony");
+                    if (!BCrypt.Net.BCrypt.Verify(password, user[0].Password)) return BadRequest("Błędne dane logowania");
+
+
+
+                    Claim[] claims = new Claim[] {
+                        new Claim("IsSuperUser", user[0].IsSuperUser.ToString()),
+                        new Claim("Hired", user[0].Worker_Id.Hired.ToString()),
+                        new Claim("IsAdmin",user[0].IsAdmin.ToString())};
+                    var tokenString = JwtService.Generate(user[0].Id, claims);
+
+
+                    return Ok(new
+                    {
+                        Mess = "Pomyślnie zalogowano",
+                        IsSuperUser = user[0].IsSuperUser,
+                        IsAdmin=user[0].IsAdmin,
+                        Resutl = tokenString
+                    });
                 });
-            }
-            catch (NullReferenceException)
-            {
-                return BadRequest("Błędne dane logowania");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
         }
+
+        [HttpPut("EditLogin")]
+        public ActionResult EditLogin([FromHeader] string authorization, [FromBody] string login)
+        {
+            return ExecuteApi(authorization, token =>
+             {
+                 UserDB[] user = MySqlConnector.ExecuteQueryResult<UserDB>($"select * from users where Id = {token.Issuer}");
+
+                 if (user.Length < 1) return Unauthorized("Nie jesteś zalogowany");
+
+                
+                 return MySqlConnector.ExecuteNonQueryResult($"Update users set login='{login}'") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+             });
+        }
+
+        [HttpPut("EditPassword")]
+        public ActionResult EditPassword([FromHeader] string authorization, [FromHeader] string password)
+        {
+            return ExecuteApi(authorization, token =>
+            {
+                UserDB[] user = MySqlConnector.ExecuteQueryResult<UserDB>($"select * from users where Id = {token.Issuer}");
+
+                if (user.Length < 1) return Unauthorized("Nie jesteś zalogowany");
+
+
+                return MySqlConnector.ExecuteNonQueryResult($"Update users set password='{BCrypt.Net.BCrypt.HashPassword(password)}'") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+            });
+        }
+
+        public class UserSUDTO
+        {
+            public uint Id { get; set; }
+            public bool IsSuperUser { get; set; }
+        }
+
+        [HttpPut("EditSuperUser")]
+        public ActionResult EditSuperUser([FromHeader] string authorization, [FromBody] UserSUDTO user)
+        {
+            return ExecuteApi(authorization,token =>
+            {
+                if (token.Claims.First(x => x.Type == "IsAdmin" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+
+                return MySqlConnector.ExecuteNonQueryResult($"update users set Is_Super_User={(user.IsSuperUser?1:0)} where Id={user.Id}")>0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+            });
+        }
+
+
         [HttpPost("Refresh")]
         public ActionResult Refresh([FromHeader] string authorization)
         {
+            return ExecuteApi(authorization, token => Created("Succes", JwtService.Generate(uint.Parse(token.Issuer), (Claim[])token.Claims)));
+        }
+
+
+
+        ActionResult ExecuteApi(string authorization, Func<JwtSecurityToken, ActionResult> func)
+        {
             try
             {
+                if (string.IsNullOrEmpty(authorization))
+                {
+                    return func(null);
+                }
                 var token = JwtService.Verify(authorization);
 
-                return Created("Succes", JwtService.Generate(uint.Parse(token.Issuer), (Claim[])token.Claims));
+                return func(token);
 
             }
             catch (ArgumentNullException)
@@ -161,6 +188,5 @@ namespace WarsztatAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-
     }
 }
