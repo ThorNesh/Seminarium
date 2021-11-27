@@ -103,6 +103,7 @@ namespace WarsztatAPI.Controllers
                         Mess = "Pomyślnie zalogowano",
                         IsSuperUser = user[0].IsSuperUser,
                         IsAdmin=user[0].IsAdmin,
+                        Id=user[0].Id,
                         Resutl = tokenString
                     });
                 });
