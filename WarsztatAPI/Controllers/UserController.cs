@@ -79,14 +79,14 @@ namespace WarsztatAPI.Controllers
         [HttpPost("Login")]
         public ActionResult Login([FromHeader] string login, [FromHeader] string password)
         {
-            return ExecuteApi("", token =>
+            return ExecuteApi(null, token =>
                 {
 
-                    Models.User[] user = MySqlConnector.ExecuteQueryResult<User>($"select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id where Login = '{login}'");
-
+                    Models.User[] user = MySqlConnector.ExecuteQueryResult<User>($"select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User,users.Is_Admin from users join workers on users.Worker_Id=workers.Id where Login = '{login}'");
 
                     if (user.Length <= 0) return BadRequest("Błędne dane logowania");
                     if (!user[0].Worker_Id.Hired) return Unauthorized("Nie jesteś zatrudniony");
+                    if (string.IsNullOrEmpty(password)) return BadRequest("Błędne dane logowania");
                     if (!BCrypt.Net.BCrypt.Verify(password, user[0].Password)) return BadRequest("Błędne dane logowania");
 
 
@@ -167,17 +167,20 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
+                Console.WriteLine(string.IsNullOrEmpty(authorization));
                 if (string.IsNullOrEmpty(authorization))
                 {
                     return func(null);
                 }
+                Console.WriteLine(1);
                 var token = JwtService.Verify(authorization);
 
                 return func(token);
 
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException e)
             {
+                Console.WriteLine(e);
                 return Unauthorized("Nie jesteś zalogowany");
             }
             catch (SecurityTokenExpiredException)
