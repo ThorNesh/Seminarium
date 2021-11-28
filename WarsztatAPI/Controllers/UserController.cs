@@ -26,7 +26,7 @@ namespace WarsztatAPI.Controllers
                      if (token is null) return Unauthorized("Nie jesteś zalogowany");
                      if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
-                     return Ok(MySqlConnector.ExecuteQueryResult<User>("select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id"));
+                     return Ok(MySqlConnector.ExecuteQueryResult<User>("select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User,user.Is_Admin from users join workers on users.Worker_Id=workers.Id"));
                  });
         }
 
