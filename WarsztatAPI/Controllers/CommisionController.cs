@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using WarsztatAPI.Models;
@@ -36,7 +37,7 @@ namespace WarsztatAPI.Controllers
             return ExecuteApi("", jwt =>
             {
                 Variable<uint>[] clientId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"Select Id from clients where Phone_Number = '{commision.client.PhoneNumber}'");
-                
+
                 string insertClients = clientId.Length > 0 ?
                 @$"
                 update clients set 
@@ -44,7 +45,7 @@ namespace WarsztatAPI.Controllers
                 LastName='{commision.client.LastName}',
                 Email='{commision.client.Email}'
                 where Id={clientId[0].Var};
-                set @clientId = {clientId[0].Var};" 
+                set @clientId = {clientId[0].Var};"
                 :
                  @$"insert into clients values(
                     '0',
@@ -57,7 +58,7 @@ namespace WarsztatAPI.Controllers
 
                 Variable<uint>[] vehicleId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"select Id from vehicles where Vin='{commision.vehicle.Vin}';");
 
-                Console.WriteLine($"Client:{(clientId.Length>0 ? clientId[0].Var : -1)} | Vehicle:{(vehicleId.Length>0 ? vehicleId[0].Var : -1)}");
+                Console.WriteLine($"Client:{(clientId.Length > 0 ? clientId[0].Var : -1)} | Vehicle:{(vehicleId.Length > 0 ? vehicleId[0].Var : -1)}");
                 string insertVehicle = vehicleId.Length > 0 ?
                 $@"update vehicles set
                 `Registration_Number`='{commision.vehicle.RegistrationNumber}',
@@ -164,14 +165,44 @@ where code = '{code}';
             });
         }
 
+        [HttpGet("GetAll")]
+        public ActionResult GetAll([FromHeader] string authorization)
+        {
+            return ExecuteApi(authorization, token =>
+            {
+                Commision[] results = MySqlConnector.ExecuteQueryResult<Commision>($@"
+               select commisions.Id,
+clients_vehicles_chains.Id,
+clients.*,
+vehicles.*,
+fuel_types.Name,
+clients_vehicles_chains.Message,
+clients_vehicles_chains.Service,
+Code,
+Date_Of_Start,
+Hour_Of_Start,
+statuses.*,
+workers.*
+from commisions
+join clients_vehicles_chains on commisions.Chain_Id = clients_vehicles_chains.Id
+join clients on clients_vehicles_chains.Client_Id = clients.Id
+join vehicles on clients_vehicles_chains.Vehicle_Id = vehicles.Id
+join fuel_types on vehicles.Fuel_Id = fuel_types.Id
+join statuses on commisions.Status_Id = statuses.Id
+join workers on commisions.Worker_Id = workers.Id
+
+                ");
+                return Ok(results);
+            });
+        }
 
 
-        ActionResult ExecuteApi(string authorization, Func<string, ActionResult> func)
+        ActionResult ExecuteApi(string authorization, Func<JwtSecurityToken, ActionResult> func)
         {
             try
             {
-                string jwt = string.IsNullOrWhiteSpace(authorization) ? "" : authorization;
-                return func(jwt);
+                if (string.IsNullOrWhiteSpace(authorization)) return func(null);
+                return func(JwtService.Verify(authorization));
             }
             catch (ArgumentNullException)
             {

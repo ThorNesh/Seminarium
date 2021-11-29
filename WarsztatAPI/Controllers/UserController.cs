@@ -167,7 +167,6 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
-                Console.WriteLine(string.IsNullOrEmpty(authorization));
                 if (string.IsNullOrEmpty(authorization))
                 {
                     return func(null);

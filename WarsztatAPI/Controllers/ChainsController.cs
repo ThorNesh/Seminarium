@@ -32,6 +32,7 @@ namespace WarsztatAPI.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(authorization)) return func();
                 JwtService.Verify(authorization);
                 return func();
             }
