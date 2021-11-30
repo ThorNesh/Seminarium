@@ -94,9 +94,9 @@ namespace WarsztatAPI.Controllers
                     Claim[] claims = new Claim[] {
                         new Claim("IsSuperUser", user[0].IsSuperUser.ToString()),
                         new Claim("Hired", user[0].Worker_Id.Hired.ToString()),
-                        new Claim("IsAdmin",user[0].IsAdmin.ToString())};
+                        new Claim("IsAdmin",user[0].IsAdmin.ToString()),
+                        new Claim("WorkerId",user[0].Worker_Id.Id.ToString())};
                     var tokenString = JwtService.Generate(user[0].Id, claims);
-
 
                     return Ok(new
                     {

@@ -196,6 +196,78 @@ join workers on commisions.Worker_Id = workers.Id
             });
         }
 
+        public class CommisionStatusDTO
+        {
+            public uint Id { get; set; }
+            public uint Status { get; set; }
+        }
+
+        [HttpPut("UpdateStatus")]
+        public ActionResult UpdateStatus([FromHeader] string authorization, [FromBody] CommisionStatusDTO status)
+        {
+            return ExecuteApi(authorization, token =>
+            {
+                if (token.Claims.First(x =>
+                        (x.Type == "Hired" && x.Value == true.ToString())) is null) return BadRequest("Nie jesteś zatrudniony");
+
+                Func<ActionResult> func = () => MySqlConnector.ExecuteNonQueryResult(@$"update commisions set Status_Id={status.Status} where Id={status.Id}") > 0 ?
+                    Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+
+
+                Variable<uint>[] WorkerAccountId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"Select Worker_Id from commisions where Id = {status.Id}");
+                if (WorkerAccountId.Length < 1) return BadRequest("Brak takiego zlecenia");
+
+                Variable<uint>[] UserId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"select users.Id from commisions join users on commisions.Worker_Id=users.Worker_Id where users.Worker_Id = {WorkerAccountId[0].Var}");
+
+                if (uint.Parse(token.Issuer) == UserId[0].Var) return func();
+
+                try
+                {
+                    token.Claims.First(x =>
+                    (x.Type == "IsSuperUser" && x.Value == true.ToString()));
+                }
+                catch (Exception) { return Unauthorized("Nie posiadasz uprawnień"); }
+
+                return func();
+
+
+            });
+        }
+
+        public class CommisionWorkerDTO
+        {
+            public uint Id { get; set; }
+            public uint WorkerId { get; set; }
+        }
+        [HttpPut("UpdateWorker")]
+        public ActionResult UpdateWorker([FromHeader] string authorization, [FromBody] CommisionWorkerDTO Worker)
+        {
+            return ExecuteApi(authorization, token =>
+            {
+                if (token.Claims.First(x =>
+                        (x.Type == "Hired" && x.Value == true.ToString())) is null) return BadRequest("Nie jesteś zatrudniony");
+
+                Variable<uint>[] WorkerId = MySqlConnector.ExecuteQueryResult<Variable<uint>>($"select Worker_Id from commisions where Id = {Worker.Id}");
+
+                if (WorkerId.Length < 1) return BadRequest("Brak zlecenia");
+
+                Func<ActionResult> func = () => MySqlConnector.ExecuteNonQueryResult($"Update commisions set Worker_Id = {Worker.WorkerId} where Id = {Worker.Id}") > 0 ?
+                Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+
+                if (WorkerId[0].Var == 0) return func();
+
+                try
+                {
+                    token.Claims.First(x =>
+                    (x.Type == "IsAdmin" && x.Value == true.ToString())
+                    );
+                }
+                catch (Exception) { return Unauthorized("Nie posiadasz uprawnień"); }
+
+                return func();
+            }
+            );
+        }
 
         ActionResult ExecuteApi(string authorization, Func<JwtSecurityToken, ActionResult> func)
         {
