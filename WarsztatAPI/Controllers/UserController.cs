@@ -104,6 +104,7 @@ namespace WarsztatAPI.Controllers
                         IsSuperUser = user[0].IsSuperUser,
                         IsAdmin=user[0].IsAdmin,
                         Id=user[0].Id,
+                        WorkerId=user[0].Worker_Id,
                         Resutl = tokenString
                     });
                 });
