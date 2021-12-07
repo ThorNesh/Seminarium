@@ -269,6 +269,26 @@ join workers on commisions.Worker_Id = workers.Id
             );
         }
 
+        public class CommisionDateDTO
+        {
+            public string Code { get; set; }
+            public string DateTime { get; set; }
+        }
+        [HttpPut("UpdateDate")]
+        public ActionResult UpdateDate([FromBody] CommisionDateDTO date)
+        {
+            return ExecuteApi(null, token => {
+                return MySqlConnector.ExecuteNonQueryResult($"update commisions set Date_Of_Start ='{date.DateTime}' where Code = '{date.Code}';") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Błędny kod");
+            });
+        }
+        [HttpPut("UpdateTime")]
+        public ActionResult UpdateTime([FromBody] CommisionDateDTO time)
+        {
+            return ExecuteApi(null, token => {
+                return MySqlConnector.ExecuteNonQueryResult($"update commisions set Hour_Of_Start ='{time.DateTime}' where Code = '{time.Code}'") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Błędny kod");
+            });
+        }
+
         ActionResult ExecuteApi(string authorization, Func<JwtSecurityToken, ActionResult> func)
         {
             try
