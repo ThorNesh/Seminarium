@@ -167,8 +167,13 @@ namespace WarsztatAPI.Controllers
                 var token = JwtService.Verify(authorization);
                 if (uint.Parse(token.Issuer) != id)
                     if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized();
-
-                return MySqlConnector.ExecuteNonQueryResult($"Update workers set {col}='{var}' where Id = {id}") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+                return MySqlConnector.ExecuteNonQueryResult(@$"
+start transaction;
+{(var=="0" ? $"delete from users where Worker_Id={id};":"")}
+Update workers set {col}='{var}' where Id = {id};
+commit"
+) > 0 ?
+Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
             }
             catch (ArgumentNullException)
             {
