@@ -120,7 +120,7 @@ namespace WarsztatAPI.Controllers
                  if (user.Length < 1) return Unauthorized("Nie jesteś zalogowany");
 
                 
-                 return MySqlConnector.ExecuteNonQueryResult($"Update users set login='{login}'") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+                 return MySqlConnector.ExecuteNonQueryResult($"Update users set login='{login}' where Id={token.Issuer}") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
              });
         }
 
@@ -134,7 +134,7 @@ namespace WarsztatAPI.Controllers
                 if (user.Length < 1) return Unauthorized("Nie jesteś zalogowany");
 
 
-                return MySqlConnector.ExecuteNonQueryResult($"Update users set password='{BCrypt.Net.BCrypt.HashPassword(password)}'") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
+                return MySqlConnector.ExecuteNonQueryResult($"Update users set password='{BCrypt.Net.BCrypt.HashPassword(password)}' where Id={token.Issuer}") > 0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
             });
         }
 
