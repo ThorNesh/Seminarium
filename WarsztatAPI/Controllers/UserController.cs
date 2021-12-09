@@ -64,7 +64,7 @@ namespace WarsztatAPI.Controllers
                     var result = MySqlConnector.ExecuteNonQueryResult($@"
                 insert into users values(
                 0,
-                '{user.Login}'
+                '{user.Login}',
                 '{user.Password}',
                 {user.Worker_Id},
                 0,
