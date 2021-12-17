@@ -26,7 +26,7 @@ namespace WarsztatAPI.Controllers
                      if (token is null) return Unauthorized("Nie jesteś zalogowany");
                      if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
-                     return Ok(MySqlConnector.ExecuteQueryResult<User>("select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User,users.Is_Admin from users join workers on users.Worker_Id=workers.Id"));
+                     return Ok(MySqlConnector.ExecuteQueryResult<User>("select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id"));
                  });
         }
 
@@ -82,7 +82,7 @@ namespace WarsztatAPI.Controllers
             return ExecuteApi(null, token =>
                 {
 
-                    Models.User[] user = MySqlConnector.ExecuteQueryResult<User>($"select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User,users.Is_Admin from users join workers on users.Worker_Id=workers.Id where Login = '{login}'");
+                    Models.User[] user = MySqlConnector.ExecuteQueryResult<User>($"select users.Id,users.Login,users.Password,workers.*,users.Is_Super_User from users join workers on users.Worker_Id=workers.Id where Login = '{login}'");
 
                     if (user.Length <= 0) return BadRequest("Błędne dane logowania");
                     if (!user[0].Worker_Id.Hired) return Unauthorized("Nie jesteś zatrudniony");
@@ -94,7 +94,6 @@ namespace WarsztatAPI.Controllers
                     Claim[] claims = new Claim[] {
                         new Claim("IsSuperUser", user[0].IsSuperUser.ToString()),
                         new Claim("Hired", user[0].Worker_Id.Hired.ToString()),
-                        new Claim("IsAdmin",user[0].IsAdmin.ToString()),
                         new Claim("WorkerId",user[0].Worker_Id.Id.ToString())};
                     var tokenString = JwtService.Generate(user[0].Id, claims);
 
@@ -102,7 +101,6 @@ namespace WarsztatAPI.Controllers
                     {
                         Mess = "Pomyślnie zalogowano",
                         IsSuperUser = user[0].IsSuperUser,
-                        IsAdmin=user[0].IsAdmin,
                         Id=user[0].Id,
                         WorkerId=user[0].Worker_Id,
                         Resutl = tokenString
@@ -149,7 +147,7 @@ namespace WarsztatAPI.Controllers
         {
             return ExecuteApi(authorization,token =>
             {
-                if (token.Claims.First(x => x.Type == "IsAdmin" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
+                if (token.Claims.First(x => x.Type == "IsSuperUser" && x.Value == true.ToString()) is null) return Unauthorized("Nie posiadasz uprawnień");
 
                 return MySqlConnector.ExecuteNonQueryResult($"update users set Is_Super_User={(user.IsSuperUser?1:0)} where Id={user.Id}")>0 ? Ok("Pomyślnie edytowano") : BadRequest("Coś poszło nie tak");
             });

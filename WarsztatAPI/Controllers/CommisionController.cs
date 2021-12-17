@@ -259,7 +259,7 @@ join workers on commisions.Worker_Id = workers.Id
                 try
                 {
                     token.Claims.First(x =>
-                    (x.Type == "IsAdmin" && x.Value == true.ToString())
+                    (x.Type == "IsSuperUser" && x.Value == true.ToString())
                     );
                 }
                 catch (Exception) { return Unauthorized("Nie posiadasz uprawnień"); }

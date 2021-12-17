@@ -12,6 +12,5 @@ namespace WarsztatAPI.Models
         public string Password { get; set; }
         public Worker Worker_Id { get; set; } = new();
         public bool IsSuperUser { get; set; }
-        public bool IsAdmin { get; set; }
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 25 Lis 2021, 20:37
+-- Czas generowania: 17 Gru 2021, 19:00
 -- Wersja serwera: 10.4.21-MariaDB
 -- Wersja PHP: 8.0.11
 
@@ -98,8 +98,8 @@ CREATE TABLE `commisions` (
 
 INSERT INTO `commisions` (`Id`, `Chain_Id`, `Code`, `Date_Of_Start`, `Hour_Of_Start`, `Status_Id`, `Worker_Id`) VALUES
 (1, 1, 'AwS09FxR', '2021-11-10', '22:07:12', 1, 1),
-(5, 6, 'bXjmgKC8', 'string', 'string', 1, 0),
-(6, 7, 'FgqbrxKH', '21.07.25', '12:00:00', 1, 0);
+(5, 6, 'bXjmgKC8', '21.06.22', '12:00:00', 3, 3),
+(6, 7, 'FgqbrxKH', '21.07.25', '12:00:00', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -185,25 +185,23 @@ CREATE TABLE `users` (
   `login` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `Worker_Id` int(11) UNSIGNED NOT NULL,
-  `Is_Super_User` tinyint(1) NOT NULL,
-  `Is_Admin` tinyint(1) NOT NULL
+  `Is_Super_User` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `password`, `Worker_Id`, `Is_Super_User`, `Is_Admin`) VALUES
-(1, 'Urson', '$2a$11$ntw512lsBs14eA0j8dJjhOVtYwzX4NkdhdVX.y8s6WStxgIj0CjNu', 1, 1, 1),
-(2, 'Steffen', '$2a$11$tg7FrhAX4ZzilXNcdRYaBuv8uxNDSkPVflFxQNBpxHrLZYPux.Dt2', 2, 0, 0),
-(3, 'Aprilette', '$2a$11$pvATEAjL.xVj9oGYAuutEOnHToSPauxazW0bhq0fk1OKbIP2oCcte', 3, 0, 0),
-(4, 'Loutitia', '$2a$11$cQQZQ5SPV49VXpQs/V0sJeesjOiTq3PXuKGg2yGLTgs51lpJlzwja', 4, 1, 0),
-(5, 'Hallie', '$2a$11$bfGPskXCFp4d1MFgOpvQZ.dGfTVM3e65Wf3slmjzyqx0k9NTfi/Ha', 5, 1, 0),
-(6, 'Rudiger', '$2a$11$cNmAdayBGCs8AWEd1saBLeFRPkBwwnk3QtdhClIQvZRniwrS0vpja', 6, 0, 0),
-(7, 'Tomasine', '$2a$11$7JUtK3FuJWT3UAsKBj/3..GSK2GBgbb55yr1nHK/vOXkF.lElm5j.', 7, 0, 0),
-(8, 'Kev', '$2a$11$YIuLETp8kQ89dVqpIjlfiuGq684Venr8UT/Miy6mOUQaVy/V5g4fK', 8, 0, 0),
-(9, 'Barby', '$2a$11$Ebjn6Z8/5eyarS1H1sb07OnmelXXGL4eVeink3UiZ/JkUi3cCjVY.', 9, 1, 0),
-(10, 'Gram', '$2a$11$6KmyJVfU5DAKwgYh.EI8A.NIFmUMCkw7B8d2rapps4eDBxGSnFH72', 10, 1, 0);
+INSERT INTO `users` (`id`, `login`, `password`, `Worker_Id`, `Is_Super_User`) VALUES
+(1, 'Urson', '$2a$11$ntw512lsBs14eA0j8dJjhOVtYwzX4NkdhdVX.y8s6WStxgIj0CjNu', 1, 1),
+(2, 'Steffen', '$2a$11$tg7FrhAX4ZzilXNcdRYaBuv8uxNDSkPVflFxQNBpxHrLZYPux.Dt2', 2, 0),
+(4, 'Loutitia', '$2a$11$cQQZQ5SPV49VXpQs/V0sJeesjOiTq3PXuKGg2yGLTgs51lpJlzwja', 4, 1),
+(5, 'Hallie', '$2a$11$bfGPskXCFp4d1MFgOpvQZ.dGfTVM3e65Wf3slmjzyqx0k9NTfi/Ha', 5, 1),
+(6, 'Rudiger', '$2a$11$cNmAdayBGCs8AWEd1saBLeFRPkBwwnk3QtdhClIQvZRniwrS0vpja', 6, 0),
+(7, 'Tomasine', '$2a$11$7JUtK3FuJWT3UAsKBj/3..GSK2GBgbb55yr1nHK/vOXkF.lElm5j.', 7, 0),
+(8, 'Kev', '$2a$11$YIuLETp8kQ89dVqpIjlfiuGq684Venr8UT/Miy6mOUQaVy/V5g4fK', 8, 0),
+(9, 'Barby', '$2a$11$Ebjn6Z8/5eyarS1H1sb07OnmelXXGL4eVeink3UiZ/JkUi3cCjVY.', 9, 1),
+(10, 'Gram', '$2a$11$6KmyJVfU5DAKwgYh.EI8A.NIFmUMCkw7B8d2rapps4eDBxGSnFH72', 10, 1);
 
 -- --------------------------------------------------------
 
@@ -263,7 +261,7 @@ INSERT INTO `workers` (`Id`, `Name`, `LastName`, `Phone_Number`, `Email`, `Hired
 (0, 'brak', 'brak', 'brak', 'brak', 1),
 (1, 'Morty', 'Murfin', '961390756', 'mmurfin0@house.gov', 1),
 (2, 'Serena', 'Gribbell', '539610498', 'sgribbell1@sfgate.com', 0),
-(3, 'Inessa', 'McCaig', '972242759', 'imccaig2@umn.edu', 1),
+(3, 'Inessa', 'McCaig', '972242759', 'imccaig2@umn.edu', 0),
 (4, 'Arv', 'Pablos', '552604227', 'apablos3@artisteer.com', 0),
 (5, 'Garrot', 'Exroll', '526664923', 'gexroll4@netscape.com', 1),
 (6, 'Rosamund', 'Crosseland', '301317164', 'rcrosseland5@ucoz.ru', 1),
